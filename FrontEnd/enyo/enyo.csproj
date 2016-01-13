@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>enyo</RootNamespace>
+    <AssemblyName>enyo</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Target\JavaScript.Lang\JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ajax.cs" />
+    <Compile Include="AjaxProperties.cs" />
+    <Compile Include="Animator.cs" />
+    <Compile Include="AroundList.cs" />
+    <Compile Include="Arranger.cs" />
+    <Compile Include="ArrangerKind.cs" />
+    <Compile Include="Async.cs" />
+    <Compile Include="BaseLayout.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="Canvas.cs" />
+    <Compile Include="canvas\Circle.cs" />
+    <Compile Include="canvas\Control.cs" />
+    <Compile Include="canvas\Image.cs" />
+    <Compile Include="canvas\Line.cs" />
+    <Compile Include="canvas\Rectangle.cs" />
+    <Compile Include="canvas\Shape.cs" />
+    <Compile Include="canvas\Text.cs" />
+    <Compile Include="CardArranger.cs" />
+    <Compile Include="CardSlideInArranger.cs" />
+    <Compile Include="CarouselArranger.cs" />
+    <Compile Include="Checkbox.cs" />
+    <Compile Include="CollapsingArranger.cs" />
+    <Compile Include="Component.cs" />
+    <Compile Include="ComponentCreateConfig.cs" />
+    <Compile Include="ComponentKind.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="Direction.cs" />
+    <Compile Include="DockRightArranger.cs" />
+    <Compile Include="Dom.cs" />
+    <Compile Include="DragAvatar.cs" />
+    <Compile Include="Easing.cs" />
+    <Compile Include="EnyoEventArgs.cs" />
+    <Compile Include="EnyoEventHandler.cs" />
+    <Compile Include="enyoX.cs" />
+    <Compile Include="FittableColumns.cs" />
+    <Compile Include="FittableColumnsLayout.cs" />
+    <Compile Include="FittableLayout.cs" />
+    <Compile Include="FittableRows.cs" />
+    <Compile Include="FittableRowsLayout.cs" />
+    <Compile Include="FloatingLayer.cs" />
+    <Compile Include="FlyweightRepeater.cs" />
+    <Compile Include="FormData.cs" />
+    <Compile Include="g11nX.cs" />
+    <Compile Include="GridArranger.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="GroupItem.cs" />
+    <Compile Include="HandleAs.cs" />
+    <Compile Include="IDataModel.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="ImageCarousel.cs" />
+    <Compile Include="ImageScale.cs" />
+    <Compile Include="ImageView.cs" />
+    <Compile Include="ImageViewPin.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="JsonpRequest.cs" />
+    <Compile Include="Layout.cs" />
+    <Compile Include="LayoutKind.cs" />
+    <Compile Include="LeftRightArranger.cs" />
+    <Compile Include="List.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="Object.cs" />
+    <Compile Include="Option.cs" />
+    <Compile Include="OwnerProxy.cs" />
+    <Compile Include="Panels.cs" />
+    <Compile Include="Platform.cs" />
+    <Compile Include="Popup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PulldownList.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="RectBound.cs" />
+    <Compile Include="Repeater.cs" />
+    <Compile Include="RichText.cs" />
+    <Compile Include="Scroller.cs" />
+    <Compile Include="ScrollMath.cs" />
+    <Compile Include="ScrollStrategy.cs" />
+    <Compile Include="ScrollThumb.cs" />
+    <Compile Include="Select.cs" />
+    <Compile Include="Selection.cs" />
+    <Compile Include="SetupRowEventArgs.cs" />
+    <Compile Include="Signals.cs" />
+    <Compile Include="Slideable.cs" />
+    <Compile Include="SpiralArranger.cs" />
+    <Compile Include="StrategyKind.cs" />
+    <Compile Include="TextArea.cs" />
+    <Compile Include="ToolDecorator.cs" />
+    <Compile Include="TopBottomArranger.cs" />
+    <Compile Include="TouchScrollStrategy.cs" />
+    <Compile Include="TransitionScrollStrategy.cs" />
+    <Compile Include="TranslateScrollStrategy.cs" />
+    <Compile Include="UiComponent.cs" />
+    <Compile Include="WebService.cs" />
+    <Compile Include="_AjaxComponent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JavaScript.Html\JavaScript.Html.csproj">
+      <Project>{648cca18-026c-44df-ade8-842a073af1b9}</Project>
+      <Name>JavaScript.Html</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

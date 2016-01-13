@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript.Html", "JavaScript.Html\JavaScript.Html.csproj", "{648CCA18-026C-44DF-ADE8-842A073AF1B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "enyo", "enyo", "{321BF385-6A3F-4C7D-A94B-79070AA73D94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "enyo", "enyo\enyo.csproj", "{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "onyx", "onyx\onyx.csproj", "{11CF0045-2E27-42E0-9BE7-98F9AA2B680C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{648CCA18-026C-44DF-ADE8-842A073AF1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{648CCA18-026C-44DF-ADE8-842A073AF1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{648CCA18-026C-44DF-ADE8-842A073AF1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{648CCA18-026C-44DF-ADE8-842A073AF1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11CF0045-2E27-42E0-9BE7-98F9AA2B680C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11CF0045-2E27-42E0-9BE7-98F9AA2B680C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11CF0045-2E27-42E0-9BE7-98F9AA2B680C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11CF0045-2E27-42E0-9BE7-98F9AA2B680C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC3E0BEB-2748-4B58-BF54-5A702A3E95FB} = {321BF385-6A3F-4C7D-A94B-79070AA73D94}
+		{11CF0045-2E27-42E0-9BE7-98F9AA2B680C} = {321BF385-6A3F-4C7D-A94B-79070AA73D94}
+	EndGlobalSection
+EndGlobal

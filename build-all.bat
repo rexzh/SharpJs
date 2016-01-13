@@ -13,9 +13,9 @@ cd Compiler
 call build %1
 cd ..
 
-::cd FrontEnd
-::call build %1
-::cd ..
+cd FrontEnd
+call build %1
+cd ..
 
 ::cd BackEnd
 ::call build %1

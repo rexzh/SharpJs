@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{648CCA18-026C-44DF-ADE8-842A073AF1B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JavaScript.Html</RootNamespace>
+    <AssemblyName>JavaScript.Html</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Target\JavaScript.Lang\JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DOM\CSS\BackgroundAttachment.cs" />
+    <Compile Include="DOM\CSS\BackgroundPosition.cs" />
+    <Compile Include="DOM\CSS\BackgroundRepeat.cs" />
+    <Compile Include="DOM\CSS\BorderStyle.cs" />
+    <Compile Include="DOM\CSS\BorderWidth.cs" />
+    <Compile Include="DOM\CSS\Clear.cs" />
+    <Compile Include="DOM\CSS\Clip.cs" />
+    <Compile Include="DOM\CSS\Color.cs" />
+    <Compile Include="DOM\CSS\CssFloat.cs" />
+    <Compile Include="DOM\CSS\Cursor.cs" />
+    <Compile Include="DOM\CSS\Direction.cs" />
+    <Compile Include="DOM\CSS\Display.cs" />
+    <Compile Include="DOM\CSS\Distance.cs" />
+    <Compile Include="DOM\CSS\DrawStyle.cs" />
+    <Compile Include="DOM\CSS\FontSize.cs" />
+    <Compile Include="DOM\CSS\FontStyle.cs" />
+    <Compile Include="DOM\CSS\FontVariant.cs" />
+    <Compile Include="DOM\CSS\FontWeight.cs" />
+    <Compile Include="DOM\CSS\LetterSpacing.cs" />
+    <Compile Include="DOM\CSS\LineHeight.cs" />
+    <Compile Include="DOM\CSS\Overflow.cs" />
+    <Compile Include="DOM\CSS\Position.cs" />
+    <Compile Include="DOM\CSS\StyleImage.cs" />
+    <Compile Include="DOM\CSS\TextAlign.cs" />
+    <Compile Include="DOM\CSS\TextDecoration.cs" />
+    <Compile Include="DOM\CSS\TextIndent.cs" />
+    <Compile Include="DOM\CSS\TextTransform.cs" />
+    <Compile Include="DOM\CSS\UnicodeBidi.cs" />
+    <Compile Include="DOM\CSS\VerticalAlign.cs" />
+    <Compile Include="DOM\CSS\Visibility.cs" />
+    <Compile Include="DOM\CSS\WhiteSpace.cs" />
+    <Compile Include="DOM\CSS\WordSpacing.cs" />
+    <Compile Include="DOM\CSS\ZIndex.cs" />
+    <Compile Include="DOM\Document.cs" />
+    <Compile Include="DOM\DomEvent.cs" />
+    <Compile Include="DOM\HtmlElement.cs" />
+    <Compile Include="DOM\Img.cs" />
+    <Compile Include="DOM\InputText.cs" />
+    <Compile Include="DOM\Option.cs" />
+    <Compile Include="DOM\Select.cs" />
+    <Compile Include="DOM\Style.cs" />
+    <Compile Include="DOM\Table.cs" />
+    <Compile Include="DOM\Td.cs" />
+    <Compile Include="DOM\Tr.cs" />
+    <Compile Include="DOM\_H5\Audio.cs" />
+    <Compile Include="DOM\_H5\Canvas.cs" />
+    <Compile Include="DOM\_H5\Context.cs" />
+    <Compile Include="DOM\_H5\Context2D.cs" />
+    <Compile Include="DOM\_H5\ContextType.cs" />
+    <Compile Include="DOM\_H5\Geolocation.cs" />
+    <Compile Include="DOM\_H5\MediaElement.cs" />
+    <Compile Include="DOM\_H5\Storage.cs" />
+    <Compile Include="DOM\_H5\Video.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasCompositeOperation.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasGradient.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasImageData.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasLineCap.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasLineJoin.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasPattern.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasRepeat.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasStyle.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasTextAlign.cs" />
+    <Compile Include="DOM\_H5\_Canvas\CanvasTextBaseline.cs" />
+    <Compile Include="DOM\_H5\_Geo\GeoCoords.cs" />
+    <Compile Include="DOM\_H5\_Geo\GeoError.cs" />
+    <Compile Include="DOM\_H5\_Geo\GeoOptions.cs" />
+    <Compile Include="DOM\_H5\_Geo\GeoPosition.cs" />
+    <Compile Include="DOM\_H5\_Media\MediaError.cs" />
+    <Compile Include="DOM\_H5\_Media\MediaNetworkState.cs" />
+    <Compile Include="DOM\_H5\_Media\MediaPreload.cs" />
+    <Compile Include="DOM\_H5\_Media\MediaReadyState.cs" />
+    <Compile Include="DOM\_H5\_Media\TimeRanges.cs" />
+    <Compile Include="History.cs" />
+    <Compile Include="JSON.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="Navigator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen.cs" />
+    <Compile Include="Window.cs" />
+    <Compile Include="XmlHttpRequest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
