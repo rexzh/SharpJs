@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA31B4FE-CDF5-42A2-B685-BEE2B01BA200}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SJC</RootNamespace>
+    <AssemblyName>SJC</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\_external\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\_external\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RexToy.Common">
+      <HintPath>..\..\_external\RexToy.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="RexToy.Core.Extension">
+      <HintPath>..\..\_external\RexToy.Core.Extension.dll</HintPath>
+    </Reference>
+    <Reference Include="RexToy.Template">
+      <HintPath>..\..\_external\RexToy.Template.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_external\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\_external\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compiler\CodeTemplate.cs" />
+    <Compile Include="Compiler\Constants.cs" />
+    <Compile Include="Compiler\CompileEngine.cs" />
+    <Compile Include="Compiler\CompileIssue.cs" />
+    <Compile Include="Compiler\CompileOptions.cs" />
+    <Compile Include="Compiler\ErrorAggregator.cs" />
+    <Compile Include="Compiler\IssueId.cs" />
+    <Compile Include="Compiler\IssueLocation.cs" />
+    <Compile Include="Compiler\NamingConvention.cs" />
+    <Compile Include="Compiler\RegisteredNamespace.cs" />
+    <Compile Include="Compiler\Template\UsingTemplate.cs" />
+    <Compile Include="Compiler\_Rewriter\SemanticModelExtension.cs" />
+    <Compile Include="Compiler\_Rewriter\SymbolExtension.cs" />
+    <Compile Include="Compiler\_Rewriter\SyntaxExtensions.cs" />
+    <Compile Include="Compiler\_Rewriter\Rewriter_BasicStructure.cs" />
+    <Compile Include="Compiler\_CompileOrder\OrderResolver.cs" />
+    <Compile Include="Compiler\_CompileOrder\SyntaxTreeRelationship.cs" />
+    <Compile Include="Compiler\_CompileOrder\TypeWalker.cs" />
+    <Compile Include="Compiler\Sjc.cs" />
+    <Compile Include="Artifacts\ArtifactsFactory.cs" />
+    <Compile Include="Artifacts\ConsoleArtifacts.cs" />
+    <Compile Include="Artifacts\FileOutput.cs" />
+    <Compile Include="Artifacts\IArtifacts.cs" />
+    <Compile Include="Artifacts\ConsoleOutput.cs" />
+    <Compile Include="Artifacts\IndentType.cs" />
+    <Compile Include="Artifacts\IOutput.cs" />
+    <Compile Include="Compiler\_Rewriter\Rewriter.cs" />
+    <Compile Include="Compiler\_Rewriter\Rewriter_Expression.cs" />
+    <Compile Include="Compiler\Template\BasicClassTemplate.cs" />
+    <Compile Include="Compiler\Template\BasicFieldTemplate.cs" />
+    <Compile Include="Compiler\Template\BasicMethodTemplate.cs" />
+    <Compile Include="Compiler\Template\ClassTemplate.cs" />
+    <Compile Include="Compiler\Template\ConstructorTemplate.cs" />
+    <Compile Include="Compiler\Template\EnumTemplate.cs" />
+    <Compile Include="Compiler\Template\FieldTemplate.cs" />
+    <Compile Include="Compiler\Template\InterfaceTemplate.cs" />
+    <Compile Include="Compiler\Template\MethodTemplate.cs" />
+    <Compile Include="Compiler\Template\NamespaceTemplate.cs" />
+    <Compile Include="Compiler\Template\StaticClassTemplate.cs" />
+    <Compile Include="Compiler\Template\StaticFieldTemplate.cs" />
+    <Compile Include="Compiler\Template\StaticMethodTemplate.cs" />
+    <Compile Include="Compiler\Template\Template.cs" />
+    <Compile Include="Compiler\_Rewriter\Rewriter_Misc.cs" />
+    <Compile Include="Compiler\_Rewriter\SyntaxKindExtension.cs" />
+    <Compile Include="Compiler\_Rewriter\TypeInfoExtension.cs" />
+    <Compile Include="Console\ConsoleSettings.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Artifacts\MultipleFileArtifacts.cs" />
+    <Compile Include="Artifacts\Output.cs" />
+    <Compile Include="Artifacts\SingleFileArtifacts.cs" />
+    <Compile Include="StdErr\ConsoleOutput.cs" />
+    <Compile Include="StdErr\IOutput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JavaScript\JavaScript.csproj">
+      <Project>{9f4b8ad6-5484-4171-a93d-adc6d35bbd18}</Project>
+      <Name>JavaScript</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
