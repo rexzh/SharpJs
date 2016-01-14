@@ -1,3 +1,4 @@
+
 enyo.kind({
     name: "UnitTestSample_1.Class1",
     kind: "enyo.Object",
@@ -25,3 +26,5 @@ enyo.kind({
     }
 });
 UnitTestSample_1.Class2.j = 0;
+
+

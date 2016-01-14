@@ -1,4 +1,4 @@
-﻿enyo.kind({
+enyo.kind({
     name: "UnitTestSample_1.ClassImplement",
     kind: "enyo.Object",
 

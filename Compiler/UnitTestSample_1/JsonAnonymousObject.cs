@@ -4,17 +4,12 @@ namespace UnitTestSample_1
 {
     class JsonAnonymousObject
     {
-        public void NoQuote()
+        public void Upper()
         {
-            var p = new { x = 0, y = 1 };
+            var p = new { X = 0, Y = 1 };
         }
 
-        public void HasQuote()
-        {
-            var p = new { x = 0, y = 1 };
-        }
-
-        public void FollowClass()
+        public void Lower()
         {
             var p = new { x = 0, y = 1 };
         }

@@ -1,4 +1,4 @@
-﻿enyo.kind({
+enyo.kind({
     name: "sp.main",
     kind: "enyo.Object",
 

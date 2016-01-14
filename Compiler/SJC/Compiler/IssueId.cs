@@ -107,7 +107,7 @@ namespace SJC.Compiler
         [Description("Symbol [{0}] mark as compile time constant, but not declare as const.")]
         NotConstant = 60,
 
-        [Description("Compiler can not bind semantic info. Try avoid use var keyword or anonymous type declare.")]
+        [Description("Compiler can not bind semantic info. Ref assembly not found? Or try avoid use var keyword or anonymous type declare.")]
         SemanticBind = 70,
 
         [Description("Goto is not supported.")]
