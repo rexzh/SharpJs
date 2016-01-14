@@ -579,7 +579,8 @@ namespace SJC.Compiler
                     }
                 }
 
-                _output.WriteLine(" catch (" + catchedName + ") {");
+
+                _output.WriteLine(" catch (" + (catchedName ?? "e") + ") {");
                 _output.IncreaseIndent();
                 if (node.Catches.Count == 1)
                 {
@@ -621,7 +622,8 @@ namespace SJC.Compiler
                         count++;
                     }
                 }
-                _output.WriteLine();
+                if (node.Catches.Count > 1)
+                    _output.WriteLine();
                 _output.DecreaseIndent();
                 _output.Write("}");
             }

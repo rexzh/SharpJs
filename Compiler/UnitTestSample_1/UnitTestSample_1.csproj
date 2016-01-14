@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DDEE5772-C859-424E-870D-69E0F288FF35}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitTestSample_1</RootNamespace>
+    <AssemblyName>UnitTestSample_1</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1685</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassDefine.cs" />
+    <Compile Include="ConstEval.cs" />
+    <Compile Include="Native.cs" />
+    <Compile Include="NormalClass4.cs" />
+    <Compile Include="GlobalVar.cs" />
+    <Compile Include="IfElse.cs" />
+    <Compile Include="ITest.cs" />
+    <Compile Include="JsonAnonymousObject.cs" />
+    <Compile Include="JsonObjectInitializer.cs" />
+    <Compile Include="Lambda.cs" />
+    <Compile Include="Loop.cs" />
+    <Compile Include="NormalClass1.cs" />
+    <Compile Include="NormalClass2.cs" />
+    <Compile Include="NormalClass3.cs" />
+    <Compile Include="Operators.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialName.cs" />
+    <Compile Include="StaticClass.cs" />
+    <Compile Include="StaticMemberClass.cs" />
+    <Compile Include="ClassImplement.cs" />
+    <Compile Include="Switch.cs" />
+    <Compile Include="TryCatch.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ToCompare\ClassDefine.js" />
+    <Content Include="ToCompare\ClassImplement.js" />
+    <Content Include="ToCompare\ConstEval.js" />
+    <Content Include="ToCompare\Native.js" />
+    <Content Include="ToCompare\NormalClass4.js" />
+    <Content Include="ToCompare\GlobalVar.js" />
+    <Content Include="ToCompare\IfElse.js" />
+    <Content Include="ToCompare\Lambda.js" />
+    <Content Include="ToCompare\Loop.js" />
+    <Content Include="ToCompare\NormalClass3.js" />
+    <Content Include="ToCompare\Operators.js" />
+    <Content Include="ToCompare\StaticClass.js" />
+    <Content Include="ToCompare\StaticMemberClass.js" />
+    <Content Include="ToCompare\JsonObjectInitializer.js" />
+    <Content Include="ToCompare\SpecialName.js" />
+    <Content Include="ToCompare\JsonAnonymousObject.js" />
+    <Content Include="ToCompare\NormalClass2.js" />
+    <Content Include="ToCompare\NormalClass1.js" />
+    <Content Include="Properties\template.xml" />
+    <Content Include="ToCompare\Switch.js" />
+    <Content Include="ToCompare\TryCatch.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JavaScript\JavaScript.csproj">
+      <Project>{9f4b8ad6-5484-4171-a93d-adc6d35bbd18}</Project>
+      <Name>JavaScript</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

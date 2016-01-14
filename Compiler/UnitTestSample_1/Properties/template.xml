@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<template>
+  <name>enyo</name>
+  <root>enyo.Object</root>
+  <base>super</base>
+  
+  <namespace></namespace>
+
+  <class>enyo.kind({
+    name: "#{class}",
+    kind: "#{baseclass}",
+
+    %code%
+});</class>
+  <staticClass>#{class} = {};
+
+    %code%
+  </staticClass>
+
+  <method>
+    #{method} : function(#{args}){
+    %code%
+}</method>
+  <staticMethod>
+    #{method} = function(#{args}){
+    %code%
+}</staticMethod>
+  <field>
+    #{field} : %code%
+  </field>
+  <staticField>
+    #{field} = %code%
+  </staticField>
+  <constructor>
+    constructor : function(#{args}){
+    %code%
+}</constructor>
+  <interface></interface>
+  <enum></enum>
+</template>
