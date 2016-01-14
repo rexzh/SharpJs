@@ -50,6 +50,58 @@ namespace SJC.Compiler
             return true;
         }
 
+        public static bool IsOperator(this ISymbol symbol)
+        {
+            var attrs = symbol.GetAttributes();
+            foreach (var attr in attrs)
+            {
+                if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
+                    return true;
+            }
+            return false;
+        }
+
+        public static int OperandNumber(this ISymbol symbol)
+        {
+            var attrs = symbol.GetAttributes();
+            foreach (var attr in attrs)
+            {
+                if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
+                {
+                    if (attr.ConstructorArguments.Length > 1)
+                        return (int)attr.ConstructorArguments[1].Value;
+                }
+            }
+            return 2;
+        }
+
+        public static string OperatorToken(this ISymbol symbol)
+        {
+            var attrs = symbol.GetAttributes();
+            foreach (var attr in attrs)
+            {
+                if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
+                {
+                    return string.Format("{0}", attr.ConstructorArguments[0].Value);
+                }
+            }
+            return string.Empty;
+        }
+
+        public static bool OperatorPrefix(this ISymbol symbol)
+        {
+            var attrs = symbol.GetAttributes();
+            foreach (var attr in attrs)
+            {
+                if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
+                {
+                    if (attr.ConstructorArguments.Length > 2)
+                        return (bool)attr.ConstructorArguments[2].Value;
+                }
+            }
+            return false;
+        }
+
         public static bool IsEvalCandidate(this ISymbol symbol)
         {
             var attrs = symbol.GetAttributes();

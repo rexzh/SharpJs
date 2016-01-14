@@ -41,30 +41,31 @@ namespace SJC.Compiler
             else
             {
                 var symbol = this.GetSymbolOrOverloadSymbol(node.Expression);
-                if (symbol != null && symbol.Name == "Del"
-                    && symbol.ContainingNamespace.Name == nameof(JavaScript)
-                    && symbol.ContainingType.Name == nameof(JavaScript.Delete))
+                if (symbol.IsOperator())
                 {
-                    _output.Write("delete ");
-                    this.MakeArgumentsList(node.ArgumentList.Arguments);
+                    if (symbol.OperandNumber() == 1)
+                    {
+                        if (symbol.OperatorPrefix())
+                        {
+                            _output.Write(symbol.OperatorToken());
+                            this.MakeArgumentsList(node.ArgumentList.Arguments);
+                        }
+                        else
+                        {
+                            this.MakeArgumentsList(node.ArgumentList.Arguments);
+                            _output.Write(symbol.OperatorToken());
+                        }
+                    }
+                    else//Note: 2 default, if there's 3 in future, need change here
+                    {
+                        this.Visit(node.ArgumentList.Arguments[0]);
+                        _output.Write(symbol.OperatorToken());
+                        this.Visit(node.ArgumentList.Arguments[1]);
+                    }
                     return node;
                 }
-
-                if (symbol != null
-                    && symbol.ContainingNamespace.Name == nameof(JavaScript)
-                    && symbol.ContainingType.Name == nameof(JavaScript.Operator))
-                {
-                    this.Visit(node.ArgumentList.Arguments[0]);
-
-                    var op = symbol.GetMemberSymbolName();
-
-                    _output.Write(" " + op + " ");
-
-                    this.Visit(node.ArgumentList.Arguments[1]);
-                    return node;
-                }
-
-                this.VisitExpression(node.Expression);
+                else
+                    this.VisitExpression(node.Expression);
             }
             _output.Write('(');
             this.MakeArgumentsList(node.ArgumentList.Arguments);
@@ -105,7 +106,7 @@ namespace SJC.Compiler
                     break;
 
                 case SyntaxKind.NumericLiteralExpression:
-                    string num = node.GetText().ToString();//Note:Keep everything, e.g. prefix 0, in C#, it has no meaning, but it means octet in js
+                    string num = node.GetText().ToString().Trim();//Note:Keep everything, e.g. prefix 0, in C#, it has no meaning, but it means octet in js
                     if (!char.IsNumber(num[num.Length - 1]))//Note:Remove postfix, since C# has l,m etc as postfix.
                     {
                         num = num.Substring(0, num.Length - 1);
@@ -317,7 +318,17 @@ namespace SJC.Compiler
                     this.AppendCompileIssue(node, IssueType.Error, IssueId.CtorParamWithInitializer);
                 }
 
-                _output.Write('{');
+                int addParameterNumber = _semanticModel.CheckAddMethodParameterNumber(node);
+                switch (addParameterNumber)
+                {
+                    case 1:
+                        _output.Write('[');
+                        break;
+
+                    default:
+                        _output.Write('{');
+                        break;
+                }
 
                 var count = 0;
                 foreach (var init_exp in node.Initializer.Expressions)
@@ -368,12 +379,26 @@ namespace SJC.Compiler
                             break;
 
                         default:
-                            this.AppendCompileIssue(node, IssueType.Error, IssueId.UnknownInitializeSynatx);
+                            this.VisitExpression(init_exp);
+                            count++;
+                            if (count < node.Initializer.Expressions.Count)
+                            {
+                                _output.Write(", ");
+                            }
                             break;
                     }
                 }
 
-                _output.Write('}');
+                switch (addParameterNumber)
+                {
+                    case 1:
+                        _output.Write(']');
+                        break;
+
+                    default:
+                        _output.Write('}');
+                        break;
+                }
             }
             else
             {
@@ -509,6 +534,12 @@ namespace SJC.Compiler
             return node;
         }
 
+        public override SyntaxNode VisitFromClause(FromClauseSyntax node)
+        {
+            this.AppendCompileIssue(node, IssueType.Error, IssueId.LinqNotSupport);
+            return node;
+        }
+
         public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
         {
             var symbol = this.GetSymbolOrOverloadSymbol(node);
@@ -617,7 +648,7 @@ namespace SJC.Compiler
             //Note:Simple lambda always have 1 line code, so add prefix ident and postfix ';'
             if (node.Body.Kind() != SyntaxKind.Block)
                 _output.Write(string.Empty);
-            if (info.ReturnValue())
+            if (info.DelegateReturnValue())
                 _output.Write("return ");
             this.Visit(node.Body);
             if (node.Body.Kind() != SyntaxKind.Block)
@@ -639,7 +670,7 @@ namespace SJC.Compiler
             if (node.Body.Kind() != SyntaxKind.Block)
             {
                 _output.Write(string.Empty);
-                if (info.ReturnValue())
+                if (info.DelegateReturnValue())
                     _output.Write("return ");
             }
             this.Visit(node.Body);

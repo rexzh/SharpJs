@@ -146,7 +146,7 @@ namespace SJC.Compiler
                 //Note: Std lib.
                 //Extend: More lib? System.Core etc.
                 references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
-
+                references.Add(MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location));
 
                 foreach (string dir in _refPathList)
                 {

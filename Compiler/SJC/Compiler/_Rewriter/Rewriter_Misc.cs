@@ -273,7 +273,7 @@ namespace SJC.Compiler
         {
             var info = _semanticModel.GetSymbolInfo(syntax);
             var type = _semanticModel.GetTypeInfo(syntax.Expression);
-            return info.Symbol.Name == "Length" && (type.Type.SpecialType == SpecialType.System_String || type.Type.Kind == SymbolKind.ArrayType);
+            return info.Symbol != null && info.Symbol.Name == "Length" && (type.Type.SpecialType == SpecialType.System_String || type.Type.Kind == SymbolKind.ArrayType);
         }
 
         private ISymbol GetSymbolOrOverloadSymbol(CSharpSyntaxNode node)

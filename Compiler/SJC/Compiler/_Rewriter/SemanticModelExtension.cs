@@ -118,6 +118,27 @@ namespace SJC.Compiler
             return syntax.Identifier.ValueText;
         }
 
+        public static int CheckAddMethodParameterNumber(this SemanticModel model, ObjectCreationExpressionSyntax syntax)
+        {
+            var t = model.GetTypeInfo(syntax);
+            var members = t.Type.GetMembers();
+            foreach (var m in members)
+            {
+                if (m.Name == "Add")
+                {
+                    var method = m as IMethodSymbol;
+                    return method.Parameters.Length;
+                }
+            }
+            return 0;
+        }
+
+        public static bool IsVoid(this SemanticModel model, MethodDeclarationSyntax syntax)
+        {
+            var type = model.GetTypeInfo(syntax.ReturnType);
+            return type.Type.ContainingNamespace.Name == nameof(System) && type.Type.Name == "Void";
+        }
+
         public static string GetDefaultValueOfType(this SemanticModel model, TypeSyntax type)
         {
             var info = model.GetTypeInfo(type);

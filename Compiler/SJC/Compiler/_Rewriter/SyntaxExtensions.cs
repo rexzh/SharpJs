@@ -136,6 +136,6 @@ namespace SJC.Compiler
                     return true;
             }
             return false;
-        }        
+        }
     }
 }

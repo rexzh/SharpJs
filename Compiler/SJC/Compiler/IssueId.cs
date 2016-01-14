@@ -98,6 +98,9 @@ namespace SJC.Compiler
         [Description("Exception filter not supported.")]
         ExceptionFilter = 51,
 
+        [Description("Linq operator not supported.")]
+        LinqNotSupport = 52,
+
         [Description("Symbol [{0}] mark as compile time constant, but not declare as const.")]
         NotConstant = 60,
 

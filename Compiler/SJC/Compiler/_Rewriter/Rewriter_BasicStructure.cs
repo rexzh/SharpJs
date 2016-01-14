@@ -360,9 +360,7 @@ namespace SJC.Compiler
 
             if (node.ExpressionBody != null)
             {
-                var rType = _semanticModel.GetTypeInfo(node.ReturnType);
-
-                if (rType.Type.ContainingNamespace.Name != nameof(System) || rType.Type.Name != "Void")
+                if (!_semanticModel.IsVoid(node))
                     _output.Write("return ");
                 this.Visit(node.ExpressionBody);
 
@@ -581,7 +579,7 @@ namespace SJC.Compiler
                     }
                 }
 
-                _output.WriteLine(" catch ("+ catchedName +") {");
+                _output.WriteLine(" catch (" + catchedName + ") {");
                 _output.IncreaseIndent();
                 if (node.Catches.Count == 1)
                 {

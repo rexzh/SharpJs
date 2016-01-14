@@ -37,13 +37,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Array.cs" />
+    <Compile Include="Attributes\OperatorAttribute.cs" />
     <Compile Include="Boolean.cs" />
     <Compile Include="Compatible\NumberExtension.cs" />
     <Compile Include="Compatible\StringExtension.cs" />
     <Compile Include="DateTime.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="_Global\Console.cs" />
-    <Compile Include="_Global\Delete.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="String.cs" />
     <Compile Include="_Global\Arguments.cs" />

@@ -26,7 +26,7 @@ namespace SJC.Compiler
             return false;
         }
 
-        public static bool ReturnValue(this TypeInfo info)
+        public static bool DelegateReturnValue(this TypeInfo info)
         {
             if (info.ConvertedType.TypeKind == TypeKind.Delegate)
             {
