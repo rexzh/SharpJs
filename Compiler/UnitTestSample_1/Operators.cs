@@ -1,4 +1,4 @@
-﻿using System;
+﻿using JavaScript;
 
 namespace UnitTestSample_1
 {
@@ -73,6 +73,13 @@ namespace UnitTestSample_1
             var y = x ?? 0;
 
             var z = (x != null) ? x : y;
+        }
+
+        public void Special(int x, int y)
+        {
+            bool b1 = Operator.ExactEqual(x, y);
+            bool b2 = Operator.NotExactEqual(x, y);
+            var c = Operator.UnsignedRightShift(x, y);
         }
     }
 }

@@ -58,5 +58,11 @@ enyo.kind({
         var x = 10;
         var y = x || 0;
         var z = (x != null) ? x : y;
+    },
+
+    special : function(x, y){
+        var b1 = x === y;
+        var b2 = x !== y;
+        var c = x >>> y;
     }
 });

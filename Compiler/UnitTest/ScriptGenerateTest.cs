@@ -38,7 +38,7 @@ namespace UnitTest
         }
 
         [Test]
-        public void TestNormalProperty()
+        public void TestMethodLamdaDeclare()
         {
             string f = "NormalClass1.js";
             string toCompare = File.ReadAllText(Path.Combine(_jsPath, f)).Trim();
