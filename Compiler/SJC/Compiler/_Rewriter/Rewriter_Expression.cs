@@ -43,24 +43,31 @@ namespace SJC.Compiler
                 var symbol = this.GetSymbolOrOverloadSymbol(node.Expression);
                 if (symbol.IsOperator())
                 {
-                    if (symbol.OperandNumber() == 1)
+                    OperatorDefination def = symbol.GetOperatorDefination();
+                    switch (def.Type)
                     {
-                        if (symbol.OperatorPrefix())
-                        {
-                            _output.Write(symbol.OperatorToken());
-                            this.MakeArgumentsList(node.ArgumentList.Arguments);
-                        }
-                        else
-                        {
-                            this.MakeArgumentsList(node.ArgumentList.Arguments);
-                            _output.Write(symbol.OperatorToken());
-                        }
-                    }
-                    else//Note: 2 default, if there's 3 in future, need change here
-                    {
-                        this.Visit(node.ArgumentList.Arguments[0]);
-                        _output.Write(symbol.OperatorToken());
-                        this.Visit(node.ArgumentList.Arguments[1]);
+                        case OperatorType.Unary:
+                            if (def.Prefix)
+                            {
+                                _output.Write(def.Token);
+                                this.MakeArgumentsList(node.ArgumentList.Arguments);
+                            }
+                            else
+                            {
+                                this.MakeArgumentsList(node.ArgumentList.Arguments);
+                                _output.Write(def.Token);
+                            }
+                            break;
+
+                        case OperatorType.Binary:
+                            this.Visit(node.ArgumentList.Arguments[0]);
+                            _output.Write(def.Token);
+                            this.Visit(node.ArgumentList.Arguments[1]);
+                            break;
+
+                        case OperatorType.Unsupported:
+                            this.AppendCompileIssue(node, IssueType.Error, IssueId.OnlyUnaryOrBinary, symbol.Name);
+                            break;
                     }
                     return node;
                 }

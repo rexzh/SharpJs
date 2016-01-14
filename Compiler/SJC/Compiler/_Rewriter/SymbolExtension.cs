@@ -61,45 +61,44 @@ namespace SJC.Compiler
             return false;
         }
 
-        public static int OperandNumber(this ISymbol symbol)
+        public static OperatorDefination GetOperatorDefination(this ISymbol symbol)
         {
+            OperatorDefination def = new OperatorDefination();
             var attrs = symbol.GetAttributes();
             foreach (var attr in attrs)
             {
                 if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
                 {
+                    def.Token = (string)attr.ConstructorArguments[0].Value;
                     if (attr.ConstructorArguments.Length > 1)
-                        return (int)attr.ConstructorArguments[1].Value;
-                }
-            }
-            return 2;
-        }
+                    {
+                        switch ((int)attr.ConstructorArguments[1].Value)
+                        {
+                            case 1:
+                                def.Type = OperatorType.Unary;
+                                break;
 
-        public static string OperatorToken(this ISymbol symbol)
-        {
-            var attrs = symbol.GetAttributes();
-            foreach (var attr in attrs)
-            {
-                if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
-                {
-                    return string.Format("{0}", attr.ConstructorArguments[0].Value);
-                }
-            }
-            return string.Empty;
-        }
+                            case 2:
+                                def.Type = OperatorType.Binary;
+                                break;
 
-        public static bool OperatorPrefix(this ISymbol symbol)
-        {
-            var attrs = symbol.GetAttributes();
-            foreach (var attr in attrs)
-            {
-                if (attr.AttributeClass.IsSameType(nameof(JavaScript), nameof(OperatorAttribute)))
-                {
+                            default:
+                                def.Type = OperatorType.Unsupported;
+                                break;
+                        }
+                    }
+                    else//Note: Default is Binary
+                    {
+                        def.Type = OperatorType.Binary;
+                    }
+
                     if (attr.ConstructorArguments.Length > 2)
-                        return (bool)attr.ConstructorArguments[2].Value;
+                    {
+                        def.Prefix = (bool)attr.ConstructorArguments[2].Value;
+                    }
                 }
             }
-            return false;
+            return def;
         }
 
         public static bool IsEvalCandidate(this ISymbol symbol)

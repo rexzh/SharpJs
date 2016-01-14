@@ -89,6 +89,7 @@
     <Compile Include="Compiler\NamingConvention.cs" />
     <Compile Include="Compiler\RegisteredNamespace.cs" />
     <Compile Include="Compiler\Template\UsingTemplate.cs" />
+    <Compile Include="Compiler\_Rewriter\OperatorDefination.cs" />
     <Compile Include="Compiler\_Rewriter\SemanticModelExtension.cs" />
     <Compile Include="Compiler\_Rewriter\SymbolExtension.cs" />
     <Compile Include="Compiler\_Rewriter\SyntaxExtensions.cs" />

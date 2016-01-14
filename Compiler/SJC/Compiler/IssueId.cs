@@ -101,6 +101,9 @@ namespace SJC.Compiler
         [Description("Linq operator not supported.")]
         LinqNotSupport = 52,
 
+        [Description("Only unary or bynary operator supported, method {0} operator attribute has error.")]
+        OnlyUnaryOrBinary = 55,
+
         [Description("Symbol [{0}] mark as compile time constant, but not declare as const.")]
         NotConstant = 60,
 
