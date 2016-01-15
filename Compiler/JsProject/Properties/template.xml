@@ -29,7 +29,7 @@
   <staticField>
     #{field} = %code%
   </staticField>
-  <constructor>constructor: function(#{args}){
+  <!--constructor>constructor: function(#{args}){
   %code%
-}</constructor>
+}</constructor-->
 </template>

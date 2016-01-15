@@ -57,6 +57,7 @@ namespace SJC.Compiler
         private string _classEndTemplate;
         private string _staticClassEndTemplate;
 
+        public bool SupportCtor { get; private set; }
         private string _ctorBeginTemplate;
         private string _ctorEndTemplate;
 
@@ -166,6 +167,11 @@ namespace SJC.Compiler
             {
                 var ctorTemplate = xCtor.GetStringValue().Trim();
                 SplitMultiLineTemplate(ctorTemplate, out this._ctorBeginTemplate, out this._ctorEndTemplate);
+                this.SupportCtor = true;
+            }
+            else
+            {
+                this.SupportCtor = false;
             }
 
             SplitMultiLineTemplate(xMethod.GetStringValue().Trim(), out _methodBeginTemplate, out _methodEndTemplate);

@@ -378,15 +378,22 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
-            var template = _template.CreateConstructorTemplate();
-            template.Assign(ConstructorTemplate.ARGS, this.MakeParametersList(node.ParameterList));
-            _output.Write(template.GetBeginString());
+            if (_template.SupportCtor)
+            {
+                var template = _template.CreateConstructorTemplate();
+                template.Assign(ConstructorTemplate.ARGS, this.MakeParametersList(node.ParameterList));
+                _output.Write(template.GetBeginString());
 
-            _output.IncreaseIndent();
-            this.Visit(node.Body);
-            _output.DecreaseIndent();
+                _output.IncreaseIndent();
+                this.Visit(node.Body);
+                _output.DecreaseIndent();
 
-            _output.Write(template.GetEndString());
+                _output.Write(template.GetEndString());
+            }
+            else
+            {
+                this.AppendCompileIssue(node, IssueType.Error, IssueId.CtorNotSupport, _template.Name);
+            }
 
             return node;
         }

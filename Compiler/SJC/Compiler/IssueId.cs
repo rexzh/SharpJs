@@ -32,6 +32,9 @@ namespace SJC.Compiler
         [Description("Event is not supported.")]
         EventNotSupport = 15,
 
+        [Description("Code template not found, constructor not support in [{0}] framework?")]
+        CtorNotSupport = 16,
+
         [Description("Inner class is not supported.")]
         InnerClassNotSupport = 19,
 
