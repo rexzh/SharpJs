@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Artifacts\Position.cs" />
     <Compile Include="Compiler\CodeTemplate.cs" />
     <Compile Include="Compiler\Constants.cs" />
     <Compile Include="Compiler\CompileEngine.cs" />

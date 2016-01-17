@@ -14,13 +14,13 @@ namespace SJC.Artifacts
 
         int IndentLevel { get; }
 
-        void Write(char ch);
-        void Write(String str);
-        void Write(String fmt, params object[] args);
-        void WriteLine();
-        void WriteLine(String str);
-        void WriteLine(String fmt, params object[] args);
-        void WriteEmptyLine();
+        Position Write(char ch);
+        Position Write(String str);
+        Position Write(String fmt, params object[] args);
+        Position WriteLine();
+        Position WriteLine(char ch);
+        Position WriteLine(String str);
+        Position WriteLine(String fmt, params object[] args);
 
         void Flush();
     }

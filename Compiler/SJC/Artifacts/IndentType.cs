@@ -10,7 +10,6 @@ namespace SJC.Artifacts
     {
         Space2,
         Space4,
-        Space8,
-        Tab
+        Space8
     }
 }
