@@ -444,6 +444,7 @@ namespace SJC.Compiler
             _output.Write("}");
             return node;
         }
+
         public override SyntaxNode VisitForEachStatement(ForEachStatementSyntax node)
         {
             var info = this._semanticModel.GetTypeInfo(node.Expression);
