@@ -477,7 +477,7 @@ namespace SJC.Compiler
                 this.AppendCompensateSemicolon(node.Statement);
                 _output.DecreaseIndent();
 
-                _output.Write("}");
+                _output.Write('}');
             }
 
             return node;
@@ -494,7 +494,7 @@ namespace SJC.Compiler
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write("}");
+            _output.Write('}');
             return node;
         }
 
@@ -524,7 +524,7 @@ namespace SJC.Compiler
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write("}");
+            _output.Write('}');
             if (node.Else != null)
             {
                 _output.WriteLine(" else {");
@@ -534,7 +534,7 @@ namespace SJC.Compiler
                 this.AppendCompensateSemicolon(node.Else.Statement);
                 _output.DecreaseIndent();
 
-                _output.Write("}");
+                _output.Write('}');
             }
             _output.WriteLine(string.Empty);
             return node;
@@ -685,7 +685,7 @@ namespace SJC.Compiler
                     _output.Write(lbl.Keyword.ValueText);
                     if (lbl.Keyword.Kind() == SyntaxKind.CaseKeyword)
                     {
-                        _output.Write(" ");
+                        _output.Write(' ');
                         var caseLbl = lbl as CaseSwitchLabelSyntax;
                         this.VisitExpression(caseLbl.Value);
                     }
