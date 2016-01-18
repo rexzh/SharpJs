@@ -8,35 +8,37 @@ namespace SJC.Artifacts
 {
     sealed class MultipleFileArtifacts : IArtifacts
     {
-        private IOutput _output;
+        private IJavaScriptOutput _jsOutput;
         private string _outputDir;
 
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
+
+        private ArtifactOutput _output;
+        public ArtifactOutput Output
+        {
+            get { return _output; }
+        }
+
         public MultipleFileArtifacts(string outputDir)
         {
             _outputDir = outputDir;
+
+            _output = new ArtifactOutput();
         }
 
         public void SwitchSource(string sourceFile)
         {
-            if (_output != null)
+            if (_jsOutput != null)
             {
                 if (WriteWaterMark)
-                    _output.WriteLine(WaterMark);
-                _output.Flush();
-                _output.Dispose();
+                    _jsOutput.WriteLine(WaterMark);
+                _jsOutput.Flush();
+                _jsOutput.Dispose();
             }
             string path = Path.Combine(_outputDir, sourceFile + ".js");
-            _output = new FileOutput(path);
-        }
-
-        public IOutput Output
-        {
-            get
-            {
-                return _output;
-            }
+            _jsOutput = new FileOutput(path);
+            _output.JsOutput = _jsOutput;
         }
 
         public void Close()
@@ -51,8 +53,8 @@ namespace SJC.Artifacts
             if (!_disposed)
             {
                 if (WriteWaterMark)
-                    this._output.WriteLine(WaterMark);
-                _output.Dispose();
+                    this._jsOutput.WriteLine(WaterMark);
+                _jsOutput.Dispose();
                 _disposed = true;
                 GC.SuppressFinalize(this);
             }

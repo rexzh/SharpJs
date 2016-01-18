@@ -70,17 +70,17 @@ namespace SJC.Compiler
             {
                 if (count == 0)
                 {
-                    _output.Write(v.Identifier.ValueText);
+                    _output.Write(v.Identifier, v.Identifier.ValueText);
                 }
                 else
                 {
-                    _output.Write(", ");
-                    _output.Write(v.Identifier.ValueText);
+                    _output.Write(null, ", ");
+                    _output.Write(v.Identifier, v.Identifier.ValueText);
                 }
 
                 if (v.Initializer != null)
                 {
-                    _output.Write(" = ");
+                    _output.Write(null, " = ");
                     this.Visit(v.Initializer);
                 }
                 count++;
@@ -100,7 +100,7 @@ namespace SJC.Compiler
                 this.VisitExpression(arg.Expression);
                 count++;
                 if (count != syntaxList.Count)
-                    _output.Write(", ");
+                    _output.Write(null, ", ");
             }
         }
 
@@ -111,7 +111,7 @@ namespace SJC.Compiler
             foreach (var expr in list)
             {
                 if (count != 0)
-                    _output.Write(", ");
+                    _output.Write(null, ", ");
 
                 this.VisitExpression(expr);
                 count++;
@@ -190,21 +190,21 @@ namespace SJC.Compiler
                 {
                     if (info.Symbol.HasEvalSuggestValue())
                     {
-                        _output.Write(info.Symbol.ReadEvalSuggestValue().ToString());
+                        _output.Write(syntax, info.Symbol.ReadEvalSuggestValue().ToString());
                     }
                     else
                     {
                         if (constant.Value == null)
-                            _output.Write("null");
+                            _output.Write(syntax, "null");
                         else
                         {
                             if (constant.Value is string)
                             {
-                                _output.Write("\"" + constant.Value.ToString() + "\"");
+                                _output.Write(syntax, "\"" + constant.Value.ToString() + "\"");
                             }
                             else
                             {
-                                _output.Write(constant.Value.ToString());
+                                _output.Write(syntax, constant.Value.ToString());
                             }
                         }
                     }
@@ -225,7 +225,7 @@ namespace SJC.Compiler
             if (!(syntax.Kind() == SyntaxKind.Block))
             {
                 if (syntax.Kind() == SyntaxKind.ExpressionStatement || syntax.Kind() == SyntaxKind.ThrowStatement || syntax.Kind() == SyntaxKind.ReturnStatement)
-                    _output.WriteLine(";");
+                    _output.WriteLine(';');
             }
         }
 
@@ -236,9 +236,9 @@ namespace SJC.Compiler
             txt = txt.UnBracketing(StringPair.Create("/*", "*/"));
             string[] lines = txt.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            _output.WriteLine("//**Js Native code start");
-            _output.WriteLine(txt);
-            _output.WriteLine("//**Js Native code end");
+            _output.WriteLine(node.OpenBraceToken, "//**Js Native code start");
+            _output.WriteLine(null, txt);
+            _output.WriteLine(node.CloseBraceToken, "//**Js Native code end");
         }
 
         private void GenerateMethodCode(SimpleNameSyntax node, ISymbol symbol)
@@ -247,14 +247,14 @@ namespace SJC.Compiler
             {
                 if (symbol.IsStatic)
                 {
-                    _output.Write("{0}.", symbol.ContainingType.GetTypeSymbolName());
+                    _output.Write(node, "{0}.", symbol.ContainingType.GetTypeSymbolName());
                 }
                 else
                 {
-                    _output.Write("this.");
+                    _output.Write(null, "this.");
                 }
             }
-            _output.Write(symbol.GetMemberSymbolName());
+            _output.Write(node, symbol.GetMemberSymbolName());
         }
 
         private bool IsGlobalHolder(ExpressionSyntax syntax)

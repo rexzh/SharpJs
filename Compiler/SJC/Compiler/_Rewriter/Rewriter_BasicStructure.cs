@@ -33,9 +33,9 @@ namespace SJC.Compiler
                 if (_template.SupportUsing)
                 {
                     var template = _template.CreateUsingTemplate();
-                    _output.Write(template.GetBeginString());
+                    _output.Write(node, template.GetBeginString());
                     this.Visit(node.Name);
-                    _output.WriteLine(template.GetEndString());
+                    _output.WriteLine(null, template.GetEndString());
                 }
             }
             return node;
@@ -49,7 +49,7 @@ namespace SJC.Compiler
             template.Assign(NamespaceTemplate.NAMESPACE, ns);
             if (!RegisteredNamespace.Contains(ns))
             {
-                _output.WriteLine(template.GetBeginString());
+                _output.WriteLine(node.Name, template.GetBeginString());
             }
 
             foreach (var member in node.Members)
@@ -63,7 +63,7 @@ namespace SJC.Compiler
 
             if (!RegisteredNamespace.Contains(ns))
             {
-                _output.WriteLine(template.GetEndString());
+                _output.WriteLine(null, template.GetEndString());
                 RegisteredNamespace.Add(ns);
             }
 
@@ -145,7 +145,7 @@ namespace SJC.Compiler
             BasicClassTemplate classTemplate = _template.CreateClassTemplate(isStaticType);
 
             classTemplate.Assign(BasicClassTemplate.CLASS, _currentClass).Assign("baseclass", strBaseClass).Assign("interfaces", strInterfaces);
-            _output.Write(classTemplate.GetBeginString());
+            _output.Write(node.Identifier, classTemplate.GetBeginString());
 
             if (!isStaticType)
             {
@@ -201,17 +201,17 @@ namespace SJC.Compiler
                     _isStaticMember = member.IsStaticMember();
                     if (isStaticType)
                     {
-                        _output.Write(_currentClass + ".");
+                        _output.Write(member, _currentClass + ".");
                     }
 
                     this.Visit(member);
                     memberCount++;
 
                     if (isStaticType)
-                        _output.WriteLine(";");
+                        _output.WriteLine(';');
                     else if (memberCount != total)
                     {
-                        _output.WriteLine(_template.MemberSeparator);
+                        _output.WriteLine(null, _template.MemberSeparator);
                         if (member.Kind() == SyntaxKind.MethodDeclaration || member.Kind() == SyntaxKind.ConstructorDeclaration || member.Kind() == SyntaxKind.PropertyDeclaration)
                         {
                             _output.WriteLine();
@@ -226,23 +226,24 @@ namespace SJC.Compiler
                 if (_indentType)
                     _output.DecreaseIndent();
             }
-            _output.WriteLine(string.Empty);
+            _output.WriteLine();
 
             classTemplate.Assign(BasicClassTemplate.CLASS, _currentClass).Assign(BasicClassTemplate.BASECLASS, strBaseClass).Assign(BasicClassTemplate.INTERFACE, strInterfaces);
-            _output.Write(classTemplate.GetEndString());
+            _output.Write(null, classTemplate.GetEndString());
 
-            _output.WriteLine(string.Empty);//Note: Empty line after class declare.
+            _output.WriteLine();//Note: Empty line after class declare.
 
             if (!isStaticType && static_members.Count > 0)
             {
                 _isStaticMember = true;
                 foreach (var member in static_members)
                 {
-                    _output.Write(_currentClass + ".");
+                    _output.Write(member, _currentClass + ".");
                     Visit(member);
-                    _output.WriteLine(";");
+                    _output.WriteLine(';');
                 }
-                _output.WriteLine(string.Empty);
+
+                _output.WriteLine();
                 _isStaticMember = false;
             }
 
@@ -267,20 +268,20 @@ namespace SJC.Compiler
 
             BasicFieldTemplate template = _template.CreateFieldTemplate(_isStaticMember);
             template.Assign(BasicFieldTemplate.FIELD, field);
-            _output.Write(template.GetBeginString());
+            _output.Write(node, template.GetBeginString());
 
             if (v.Initializer == null)
             {
                 var typeInfo = node.Declaration.Type;
                 string defaultValue = _semanticModel.GetDefaultValueOfType(typeInfo);
-                _output.Write(defaultValue);
+                _output.Write(null, defaultValue);
             }
             else
             {
                 this.Visit(v.Initializer);
             }
 
-            _output.Write(template.GetEndString());
+            _output.Write(null, template.GetEndString());
             return node;
         }
 
@@ -317,7 +318,7 @@ namespace SJC.Compiler
                             break;
 
                         default:
-                            _output.WriteLine(";");
+                            _output.WriteLine(';');
                             break;
                     }
                 }
@@ -350,7 +351,7 @@ namespace SJC.Compiler
 
             BasicMethodTemplate template = _template.CreateMethodTemplate(_isStaticMember);
             template.Assign(BasicMethodTemplate.CLASS, _currentClass).Assign(BasicMethodTemplate.METHOD, info.GetMemberSymbolName()).Assign(BasicMethodTemplate.ARGS, this.MakeParametersList(node.ParameterList));
-            _output.Write(template.GetBeginString());
+            _output.Write(node.Identifier, template.GetBeginString());
 
             if (_indentMember)
                 _output.IncreaseIndent();
@@ -361,16 +362,16 @@ namespace SJC.Compiler
             if (node.ExpressionBody != null)
             {
                 if (!_semanticModel.IsVoid(node))
-                    _output.Write("return ");
+                    _output.Write(node.ExpressionBody, "return ");
                 this.Visit(node.ExpressionBody);
 
-                _output.WriteLine(";");
+                _output.WriteLine(';');
             }
 
             if (_indentMember)
                 _output.DecreaseIndent();
 
-            _output.Write(template.GetEndString());
+            _output.Write(null, template.GetEndString());
 
             this._isNative = false;
             return node;
@@ -382,13 +383,13 @@ namespace SJC.Compiler
             {
                 var template = _template.CreateConstructorTemplate();
                 template.Assign(ConstructorTemplate.ARGS, this.MakeParametersList(node.ParameterList));
-                _output.Write(template.GetBeginString());
+                _output.Write(node, template.GetBeginString());
 
                 _output.IncreaseIndent();
                 this.Visit(node.Body);
                 _output.DecreaseIndent();
 
-                _output.Write(template.GetEndString());
+                _output.Write(null, template.GetEndString());
             }
             else
             {
@@ -406,7 +407,7 @@ namespace SJC.Compiler
                 this.AppendCompileIssue(node, IssueType.Error, IssueId.UseNonScript, info.Type);
             }
 
-            _output.Write("var ");
+            _output.Write(null, "var ");
             this.MakeLocalVariableList(node.Declaration);
 
             return node;
@@ -414,7 +415,7 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitForStatement(ForStatementSyntax node)
         {
-            _output.Write("for (");
+            _output.Write(node.ForKeyword, "for (");
 
             if (node.Initializers != null)
             {
@@ -423,25 +424,25 @@ namespace SJC.Compiler
 
             if (node.Declaration != null)
             {
-                _output.Write("var ");
+                _output.Write(null, "var ");
                 this.MakeLocalVariableList(node.Declaration);
             }
 
-            _output.Write("; ");
+            _output.Write(null, "; ");
 
             this.VisitExpression(node.Condition);
-            _output.Write("; ");
+            _output.Write(null, "; ");
 
             this.MakeExpressionList(node.Incrementors);
 
-            _output.WriteLine(") {");
+            _output.WriteLine(null, ") {");
 
             _output.IncreaseIndent();
             this.Visit(node.Statement);
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write("}");
+            _output.Write('}');
             return node;
         }
 
@@ -452,15 +453,15 @@ namespace SJC.Compiler
             if (info.IsEnumerable())
             {
                 //Note:Here we use __idx${identifierName} as index
-                _output.Write("for (var __idx${0} = 0; __idx${0} < ", node.Identifier.ValueText);
+                _output.Write(node.ForEachKeyword, "for (var __idx${0} = 0; __idx${0} < ", node.Identifier.ValueText);
                 VisitExpression(node.Expression);
-                _output.Write(".length; __idx${0}++) ", node.Identifier.ValueText);
-                _output.WriteLine("{");
+                _output.Write(node.Identifier, ".length; __idx${0}++) ", node.Identifier.ValueText);
+                _output.WriteLine('{');
 
                 _output.IncreaseIndent();
-                _output.Write("var {0} = ", node.Identifier.ValueText);
+                _output.Write(node.Identifier, "var {0} = ", node.Identifier.ValueText);
                 Visit(node.Expression);
-                _output.WriteLine("[__idx${0}];", node.Identifier.ValueText);
+                _output.WriteLine(node.Identifier, "[__idx${0}];", node.Identifier.ValueText);
 
                 this.Visit(node.Statement);
                 this.AppendCompensateSemicolon(node.Statement);
@@ -469,9 +470,9 @@ namespace SJC.Compiler
             }
             else
             {
-                _output.Write("for (var {0} in ", node.Identifier.ValueText);
+                _output.Write(node.ForEachKeyword, "for (var {0} in ", node.Identifier.ValueText);
                 VisitExpression(node.Expression);
-                _output.WriteLine(") {");
+                _output.WriteLine(null, ") {");
 
                 _output.IncreaseIndent();
                 this.Visit(node.Statement);
@@ -486,9 +487,9 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitWhileStatement(WhileStatementSyntax node)
         {
-            _output.Write("while (");
+            _output.Write(node.WhileKeyword, "while (");
             this.VisitExpression(node.Condition);
-            _output.WriteLine(") {");
+            _output.WriteLine(null, ") {");
 
             _output.IncreaseIndent();
             this.Visit(node.Statement);
@@ -501,14 +502,14 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitDoStatement(DoStatementSyntax node)
         {
-            _output.WriteLine("do {");
+            _output.WriteLine(node.DoKeyword, "do {");
 
             _output.IncreaseIndent();
             Visit(node.Statement);
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write("} while (");
+            _output.Write(node.WhileKeyword, "} while (");
             VisitExpression(node.Condition);
             _output.Write(')');
             return node;
@@ -516,9 +517,9 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitIfStatement(IfStatementSyntax node)
         {
-            _output.Write("if ( ");
+            _output.Write(node.IfKeyword, "if ( ");
             this.VisitExpression(node.Condition);
-            _output.WriteLine(" ) {");
+            _output.WriteLine(null, " ) {");
 
             _output.IncreaseIndent();
             this.Visit(node.Statement);
@@ -528,7 +529,7 @@ namespace SJC.Compiler
             _output.Write('}');
             if (node.Else != null)
             {
-                _output.WriteLine(" else {");
+                _output.WriteLine(node.Else.ElseKeyword, " else {");
 
                 _output.IncreaseIndent();
                 this.Visit(node.Else.Statement);
@@ -537,25 +538,25 @@ namespace SJC.Compiler
 
                 _output.Write('}');
             }
-            _output.WriteLine(string.Empty);
+            _output.WriteLine();
             return node;
         }
 
         public override SyntaxNode VisitBreakStatement(BreakStatementSyntax node)
         {
-            _output.WriteLine("break;");
+            _output.WriteLine(node.BreakKeyword, "break;");
             return node;
         }
 
         public override SyntaxNode VisitContinueStatement(ContinueStatementSyntax node)
         {
-            _output.WriteLine("continue;");
+            _output.WriteLine(node.ContinueKeyword, "continue;");
             return node;
         }
 
         public override SyntaxNode VisitTryStatement(TryStatementSyntax node)
         {
-            _output.WriteLine("try {");
+            _output.WriteLine(node.TryKeyword, "try {");
 
             _output.IncreaseIndent();
             this.Visit(node.Block);
@@ -588,7 +589,7 @@ namespace SJC.Compiler
                 }
 
 
-                _output.WriteLine(" catch (" + (catchedName ?? "e") + ") {");
+                _output.WriteLine(node.Catches[0], " catch (" + (catchedName ?? "e") + ") {");
                 _output.IncreaseIndent();
                 if (node.Catches.Count == 1)
                 {
@@ -600,7 +601,7 @@ namespace SJC.Compiler
                     for (int i = 0; i < node.Catches.Count; i++)
                     {
                         if (count > 0)
-                            _output.Write(" else ");
+                            _output.Write(node.Catches[i].CatchKeyword, " else ");
 
                         var c = node.Catches[i];
                         if (c.Declaration != null)
@@ -609,9 +610,9 @@ namespace SJC.Compiler
                             var typename = info.Symbol.GetTypeSymbolName();
 
                             if (count == 0)
-                                _output.Write("if ({0}.name == \"{1}\") ", catchedName, typename);
+                                _output.Write(c.Declaration, "if ({0}.name == \"{1}\") ", catchedName, typename);
                             else
-                                _output.Write("if ({0}.name == \"{1}\") ", catchedName, typename);
+                                _output.Write(c.Declaration, "if ({0}.name == \"{1}\") ", catchedName, typename);
                             _output.WriteLine('{');
                             _output.IncreaseIndent();
                             this.Visit(c.Block);
@@ -638,7 +639,7 @@ namespace SJC.Compiler
 
             if (node.Finally != null)
             {
-                _output.WriteLine(" finally {");
+                _output.WriteLine(node.Finally.FinallyKeyword, " finally {");
 
                 _output.IncreaseIndent();
                 this.Visit(node.Finally.Block);
@@ -654,12 +655,12 @@ namespace SJC.Compiler
         {
             if (node.Expression != null)
             {
-                _output.Write("return ");
+                _output.Write(node.ReturnKeyword, "return ");
                 this.VisitExpression(node.Expression);
             }
             else
             {
-                _output.Write("return");
+                _output.Write(node.ReturnKeyword, "return");
             }
 
             return node;
@@ -667,30 +668,29 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitExpressionStatement(ExpressionStatementSyntax node)
         {
-            _output.Write(string.Empty);
             this.Visit(node.Expression);
             return node;
         }
 
         public override SyntaxNode VisitSwitchStatement(SwitchStatementSyntax node)
         {
-            _output.Write("switch (");
+            _output.Write(node.SwitchKeyword, "switch (");
             this.Visit(node.Expression);
-            _output.WriteLine(") {");
+            _output.WriteLine(null, ") {");
             _output.IncreaseIndent();
 
             foreach (var section in node.Sections)
             {
                 foreach (var lbl in section.Labels)
                 {
-                    _output.Write(lbl.Keyword.ValueText);
+                    _output.Write(lbl.Keyword, lbl.Keyword.ValueText);
                     if (lbl.Keyword.Kind() == SyntaxKind.CaseKeyword)
                     {
                         _output.Write(' ');
                         var caseLbl = lbl as CaseSwitchLabelSyntax;
                         this.VisitExpression(caseLbl.Value);
                     }
-                    _output.WriteLine(":");
+                    _output.WriteLine(':');
                 }
 
                 _output.IncreaseIndent();
@@ -705,7 +705,7 @@ namespace SJC.Compiler
                         case SyntaxKind.LocalDeclarationStatement:
                         case SyntaxKind.ReturnStatement:
                         case SyntaxKind.ThrowStatement:
-                            _output.WriteLine(";");
+                            _output.WriteLine(';');
                             break;
                     }
                 }
@@ -713,7 +713,7 @@ namespace SJC.Compiler
             }
 
             _output.DecreaseIndent();
-            _output.WriteLine("}");
+            _output.WriteLine('}');
 
             return node;
         }
@@ -739,7 +739,7 @@ namespace SJC.Compiler
 
                 var interfaceTemplate = _template.CreateInterfaceTemplate();
                 interfaceTemplate.Assign("interface", strInterface);
-                _output.Write(interfaceTemplate.GetBeginString());
+                _output.Write(node, interfaceTemplate.GetBeginString());
 
                 if (_indentType)
                     _output.IncreaseIndent();
@@ -750,13 +750,13 @@ namespace SJC.Compiler
                     Visit(member);
                     count++;
                     if (count != node.Members.Count)
-                        _output.WriteLine(",");
+                        _output.WriteLine(',');
                 }
 
                 if (_indentType)
                     _output.DecreaseIndent();
 
-                _output.Write(interfaceTemplate.GetEndString());
+                _output.Write(null, interfaceTemplate.GetEndString());
                 if (node.BaseList != null)
                 {
                     this.AppendCompileIssue(node, IssueType.Error, IssueId.InterfaceInheritNotSupport);
@@ -778,7 +778,7 @@ namespace SJC.Compiler
 
                 var enumTemplate = _template.CreateEnumTemplate();
                 enumTemplate.Assign("enum", enumName);
-                _output.Write(enumTemplate.GetBeginString());
+                _output.Write(node, enumTemplate.GetBeginString());
 
                 _output.IncreaseIndent();
                 var count = 0;
@@ -788,12 +788,12 @@ namespace SJC.Compiler
                     count++;
                     if (count != node.Members.Count)
                     {
-                        _output.WriteLine(",");
+                        _output.WriteLine(',');
                     }
                 }
                 _output.DecreaseIndent();
 
-                _output.WriteLine(enumTemplate.GetEndString());
+                _output.WriteLine(null, enumTemplate.GetEndString());
 
                 if (node.BaseList != null)
                 {
@@ -899,7 +899,7 @@ namespace SJC.Compiler
             }
             else
             {
-                _output.Write("throw ");
+                _output.Write(node.ThrowKeyword, "throw ");
                 Visit(node.Expression);
             }
             return node;
@@ -907,8 +907,8 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitEnumMemberDeclaration(EnumMemberDeclarationSyntax node)
         {
-            _output.Write(node.Identifier.ValueText);
-            _output.Write(": ");
+            _output.Write(node.Identifier, node.Identifier.ValueText);
+            _output.Write(null, ": ");
             var info = _semanticModel.GetDeclaredSymbol(node);
             string val;
             bool hasAttr = info.GetEnumValue(out val);
@@ -928,7 +928,7 @@ namespace SJC.Compiler
             {
                 if (hasAttr)
                 {
-                    _output.Write(val);
+                    _output.Write(node, val);
                 }
                 else
                 {

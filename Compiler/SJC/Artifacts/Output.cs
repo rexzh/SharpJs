@@ -8,7 +8,7 @@ using RexToy;
 
 namespace SJC.Artifacts
 {
-    public abstract class Output : IOutput
+    public abstract class Output : IJavaScriptOutput
     {
         private const char SPACE = ' ';
 
@@ -144,31 +144,6 @@ namespace SJC.Artifacts
             return start;
         }
 
-        public Position Write(string fmt, params object[] args)
-        {
-            if (_newLine)
-            {
-                this.WriteIndent();
-                _column += IndentLength;
-            }
-            Position start = new Position(_line, _column);
-            var str = string.Format(fmt, args);
-            this.WriteContent(str);
-            int colCorrection = this.Correction(str);
-            if (fmt.EndsWith(System.Environment.NewLine))
-            {
-                this._newLine = true;
-                _line++;
-                _column = 0;
-            }
-            else
-            {
-                this._newLine = false;
-                _column += colCorrection;
-            }
-            return start;
-        }
-
         public Position WriteLine()
         {
             Position start = new Position(_line, _column);
@@ -194,25 +169,6 @@ namespace SJC.Artifacts
                 _column += IndentLength;
             }
             Position start = new Position(_line, _column);
-            this.WriteContent(str);
-            this.Correction(str);
-            if (!str.EndsWith(System.Environment.NewLine))
-                this.WriteContent(System.Environment.NewLine);
-            this._newLine = true;
-            _line++;
-            _column = 0;
-            return start;
-        }
-
-        public Position WriteLine(string fmt, params object[] args)
-        {
-            if (_newLine)
-            {
-                this.WriteIndent();
-                _column += IndentLength;
-            }
-            Position start = new Position(_line, _column);
-            string str = string.Format(fmt, args);
             this.WriteContent(str);
             this.Correction(str);
             if (!str.EndsWith(System.Environment.NewLine))

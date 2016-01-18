@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Artifacts\ArtifactOutput.cs" />
     <Compile Include="Artifacts\Position.cs" />
     <Compile Include="Compiler\CodeTemplate.cs" />
     <Compile Include="Compiler\Constants.cs" />
@@ -105,7 +106,7 @@
     <Compile Include="Artifacts\IArtifacts.cs" />
     <Compile Include="Artifacts\ConsoleOutput.cs" />
     <Compile Include="Artifacts\IndentType.cs" />
-    <Compile Include="Artifacts\IOutput.cs" />
+    <Compile Include="Artifacts\IJavaScriptOutput.cs" />
     <Compile Include="Compiler\_Rewriter\Rewriter.cs" />
     <Compile Include="Compiler\_Rewriter\Rewriter_Expression.cs" />
     <Compile Include="Compiler\Template\BasicClassTemplate.cs" />

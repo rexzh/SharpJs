@@ -14,14 +14,14 @@ namespace SJC.Compiler
     public partial class Rewriter : CSharpSyntaxRewriter
     {
         private SemanticModel _semanticModel;
-        private IOutput _output;
+        private ArtifactOutput _output;
         private CodeTemplate _template;
         private ErrorAggregator _aggregator;
 
         private bool _indentType = true;
         private bool _indentMember = true;
 
-        public Rewriter(SemanticModel semanticModel, CodeTemplate template, IOutput output, ErrorAggregator aggregator)
+        public Rewriter(SemanticModel semanticModel, CodeTemplate template, ArtifactOutput output, ErrorAggregator aggregator)
         {
             this._semanticModel = semanticModel;
             this._output = output;

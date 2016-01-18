@@ -4,22 +4,23 @@ namespace SJC.Artifacts
 {
     class ConsoleArtifacts : IArtifacts
     {
-        private IOutput _output;
+        private IJavaScriptOutput _jsOutput;
 
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
 
-        public ConsoleArtifacts()
+        private ArtifactOutput _output;
+        public ArtifactOutput Output
         {
-            _output = new ConsoleOutput();
+            get { return _output; }
         }
 
-        public IOutput Output
+        public ConsoleArtifacts()
         {
-            get
-            {
-                return _output;
-            }
+            _jsOutput = new ConsoleOutput();
+
+            _output = new ArtifactOutput();
+            _output.JsOutput = _jsOutput;
         }
 
         public void Close()
@@ -31,7 +32,7 @@ namespace SJC.Artifacts
         {
             ConsoleSettings.SetForeGroundColour(ConsoleColor.Cyan, false);
             if (WriteWaterMark)
-                _output.WriteLine(WaterMark);
+                _jsOutput.WriteLine(WaterMark);
             ConsoleSettings.SetForeGroundColour();
         }
 

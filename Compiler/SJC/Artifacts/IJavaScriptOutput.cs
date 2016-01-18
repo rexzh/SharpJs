@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SJC.Artifacts
 {
-    public interface IOutput : IDisposable
+    public interface IJavaScriptOutput : IDisposable
     {
         void IncreaseIndent();
         void DecreaseIndent();
@@ -16,11 +16,9 @@ namespace SJC.Artifacts
 
         Position Write(char ch);
         Position Write(String str);
-        Position Write(String fmt, params object[] args);
         Position WriteLine();
         Position WriteLine(char ch);
         Position WriteLine(String str);
-        Position WriteLine(String fmt, params object[] args);
 
         void Flush();
     }
