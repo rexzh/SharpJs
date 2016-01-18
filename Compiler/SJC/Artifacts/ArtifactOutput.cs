@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace SJC.Artifacts
 {
-    //TODO:
     public class ArtifactOutput
     {
         private IJavaScriptOutput _jsOutput;
@@ -14,6 +13,18 @@ namespace SJC.Artifacts
         {
             get { return _jsOutput; }
             set { _jsOutput = value; }
+        }
+
+        private void DebugWrite(SyntaxNode node, Position pos, string str)
+        {
+            if (node.Kind() == SyntaxKind.IdentifierName || node.Kind() == SyntaxKind.IdentifierToken)
+                System.Diagnostics.Debug.WriteLine($"{node} ---> [{node.Kind()} | {pos}] ---> {str}");
+        }
+
+        private void DebugWrite(SyntaxToken token, Position pos, string str)
+        {
+            if (token.Kind() == SyntaxKind.IdentifierName || token.Kind() == SyntaxKind.IdentifierToken)
+                System.Diagnostics.Debug.WriteLine($"{token} ---> [{token.Kind()} | {pos}] ---> {str}");
         }
 
         public void IncreaseIndent()
@@ -26,84 +37,81 @@ namespace SJC.Artifacts
             _jsOutput.DecreaseIndent();
         }
 
-        public void WriteLine()
+        public void TrivialWriteLine()
         {
             _jsOutput.WriteLine();
         }
 
-        public void Write(char ch)
+        public void TrivialWrite(char ch)
         {
             _jsOutput.Write(ch);
         }
 
-        public void WriteLine(char ch)
+        public void TrivialWrite(string str)
+        {
+            _jsOutput.Write(str);
+        }
+
+        public void TrivialWriteLine(char ch)
         {
             _jsOutput.WriteLine(ch);
         }
 
-        private bool DebugOutput(SyntaxToken token)
+        public void TrivialWriteLine(string str)
         {
-            return !token.IsKeyword();
+            _jsOutput.WriteLine(str);
         }
 
         public void Write(SyntaxNode syntax, String str)
         {
             var pos = _jsOutput.Write(str);
-            if (syntax != null)
-                System.Diagnostics.Debug.WriteLine($"{syntax} | {pos}: {str}");
+            this.DebugWrite(syntax, pos, str);
         }
 
         public void Write(SyntaxNode syntax, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.Write(str);
-            if (syntax != null)
-                System.Diagnostics.Debug.WriteLine($"{syntax} | {pos}: {str}");
+            this.DebugWrite(syntax, pos, str);
         }
 
         public void WriteLine(SyntaxNode syntax, String str)
         {
             var pos = _jsOutput.WriteLine(str);
-            if (syntax != null)
-                System.Diagnostics.Debug.WriteLine($"{syntax} | {pos}: {str}");
+            this.DebugWrite(syntax, pos, str);
         }
 
         public void WriteLine(SyntaxNode syntax, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.WriteLine(str);
-            if (syntax != null)
-                System.Diagnostics.Debug.WriteLine($"{syntax} | {pos}: {str}");
+            this.DebugWrite(syntax, pos, str);
         }
 
         public void Write(SyntaxToken token, String str)
         {
             var pos = _jsOutput.Write(str);
-            if (token != null && DebugOutput(token))
-                System.Diagnostics.Debug.WriteLine($"{token} | {pos}: {str}");
+            this.DebugWrite(token, pos, str);
         }
 
         public void Write(SyntaxToken token, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.Write(str);
-            if (token != null && DebugOutput(token))
-                System.Diagnostics.Debug.WriteLine($"{token} | {pos}: {str}");
+            this.DebugWrite(token, pos, str);
         }
 
         public void WriteLine(SyntaxToken token, String str)
         {
             var pos = _jsOutput.WriteLine(str);
-            if (token != null && DebugOutput(token))
-                System.Diagnostics.Debug.WriteLine($"{token} | {pos}: {str}");
+            this.DebugWrite(token, pos, str);
         }
 
         public void WriteLine(SyntaxToken token, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.WriteLine(str);
-            if (token != null && DebugOutput(token))
-                System.Diagnostics.Debug.WriteLine($"{token} | {pos}: {str}");
+            this.DebugWrite(token, pos, str);
         }
     }
 }

@@ -74,13 +74,13 @@ namespace SJC.Compiler
                 }
                 else
                 {
-                    _output.Write(null, ", ");
+                    _output.TrivialWrite(", ");
                     _output.Write(v.Identifier, v.Identifier.ValueText);
                 }
 
                 if (v.Initializer != null)
                 {
-                    _output.Write(null, " = ");
+                    _output.TrivialWrite(" = ");
                     this.Visit(v.Initializer);
                 }
                 count++;
@@ -100,7 +100,7 @@ namespace SJC.Compiler
                 this.VisitExpression(arg.Expression);
                 count++;
                 if (count != syntaxList.Count)
-                    _output.Write(null, ", ");
+                    _output.TrivialWrite(", ");
             }
         }
 
@@ -111,7 +111,7 @@ namespace SJC.Compiler
             foreach (var expr in list)
             {
                 if (count != 0)
-                    _output.Write(null, ", ");
+                    _output.TrivialWrite(", ");
 
                 this.VisitExpression(expr);
                 count++;
@@ -225,7 +225,7 @@ namespace SJC.Compiler
             if (!(syntax.Kind() == SyntaxKind.Block))
             {
                 if (syntax.Kind() == SyntaxKind.ExpressionStatement || syntax.Kind() == SyntaxKind.ThrowStatement || syntax.Kind() == SyntaxKind.ReturnStatement)
-                    _output.WriteLine(';');
+                    _output.TrivialWriteLine(';');
             }
         }
 
@@ -237,7 +237,7 @@ namespace SJC.Compiler
             string[] lines = txt.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             _output.WriteLine(node.OpenBraceToken, "//**Js Native code start");
-            _output.WriteLine(null, txt);
+            _output.TrivialWriteLine(txt);
             _output.WriteLine(node.CloseBraceToken, "//**Js Native code end");
         }
 
@@ -251,7 +251,7 @@ namespace SJC.Compiler
                 }
                 else
                 {
-                    _output.Write(null, "this.");
+                    _output.TrivialWrite("this.");
                 }
             }
             _output.Write(node, symbol.GetMemberSymbolName());

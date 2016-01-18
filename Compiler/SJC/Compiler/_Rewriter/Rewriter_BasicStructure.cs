@@ -35,7 +35,7 @@ namespace SJC.Compiler
                     var template = _template.CreateUsingTemplate();
                     _output.Write(node, template.GetBeginString());
                     this.Visit(node.Name);
-                    _output.WriteLine(null, template.GetEndString());
+                    _output.TrivialWriteLine(template.GetEndString());
                 }
             }
             return node;
@@ -63,7 +63,7 @@ namespace SJC.Compiler
 
             if (!RegisteredNamespace.Contains(ns))
             {
-                _output.WriteLine(null, template.GetEndString());
+                _output.TrivialWriteLine(template.GetEndString());
                 RegisteredNamespace.Add(ns);
             }
 
@@ -208,13 +208,13 @@ namespace SJC.Compiler
                     memberCount++;
 
                     if (isStaticType)
-                        _output.WriteLine(';');
+                        _output.TrivialWriteLine(';');
                     else if (memberCount != total)
                     {
-                        _output.WriteLine(null, _template.MemberSeparator);
+                        _output.TrivialWriteLine(_template.MemberSeparator);
                         if (member.Kind() == SyntaxKind.MethodDeclaration || member.Kind() == SyntaxKind.ConstructorDeclaration || member.Kind() == SyntaxKind.PropertyDeclaration)
                         {
-                            _output.WriteLine();
+                            _output.TrivialWriteLine();
                         }
                     }
                     _isStaticMember = false;
@@ -226,12 +226,12 @@ namespace SJC.Compiler
                 if (_indentType)
                     _output.DecreaseIndent();
             }
-            _output.WriteLine();
+            _output.TrivialWriteLine();
 
             classTemplate.Assign(BasicClassTemplate.CLASS, _currentClass).Assign(BasicClassTemplate.BASECLASS, strBaseClass).Assign(BasicClassTemplate.INTERFACE, strInterfaces);
-            _output.Write(null, classTemplate.GetEndString());
+            _output.TrivialWrite(classTemplate.GetEndString());
 
-            _output.WriteLine();//Note: Empty line after class declare.
+            _output.TrivialWriteLine();//Note: Empty line after class declare.
 
             if (!isStaticType && static_members.Count > 0)
             {
@@ -240,10 +240,10 @@ namespace SJC.Compiler
                 {
                     _output.Write(member, _currentClass + ".");
                     Visit(member);
-                    _output.WriteLine(';');
+                    _output.TrivialWriteLine(';');
                 }
 
-                _output.WriteLine();
+                _output.TrivialWriteLine();
                 _isStaticMember = false;
             }
 
@@ -274,14 +274,14 @@ namespace SJC.Compiler
             {
                 var typeInfo = node.Declaration.Type;
                 string defaultValue = _semanticModel.GetDefaultValueOfType(typeInfo);
-                _output.Write(null, defaultValue);
+                _output.TrivialWrite(defaultValue);
             }
             else
             {
                 this.Visit(v.Initializer);
             }
 
-            _output.Write(null, template.GetEndString());
+            _output.TrivialWrite(template.GetEndString());
             return node;
         }
 
@@ -310,7 +310,7 @@ namespace SJC.Compiler
                         case SyntaxKind.TryStatement:
                         case SyntaxKind.WhileStatement:
                         case SyntaxKind.SwitchStatement:
-                            _output.WriteLine();
+                            _output.TrivialWriteLine();
                             break;
 
                         case SyntaxKind.BreakStatement:
@@ -318,7 +318,7 @@ namespace SJC.Compiler
                             break;
 
                         default:
-                            _output.WriteLine(';');
+                            _output.TrivialWriteLine(';');
                             break;
                     }
                 }
@@ -365,13 +365,13 @@ namespace SJC.Compiler
                     _output.Write(node.ExpressionBody, "return ");
                 this.Visit(node.ExpressionBody);
 
-                _output.WriteLine(';');
+                _output.TrivialWriteLine(';');
             }
 
             if (_indentMember)
                 _output.DecreaseIndent();
 
-            _output.Write(null, template.GetEndString());
+            _output.TrivialWrite(template.GetEndString());
 
             this._isNative = false;
             return node;
@@ -389,7 +389,7 @@ namespace SJC.Compiler
                 this.Visit(node.Body);
                 _output.DecreaseIndent();
 
-                _output.Write(null, template.GetEndString());
+                _output.TrivialWrite(template.GetEndString());
             }
             else
             {
@@ -407,7 +407,7 @@ namespace SJC.Compiler
                 this.AppendCompileIssue(node, IssueType.Error, IssueId.UseNonScript, info.Type);
             }
 
-            _output.Write(null, "var ");
+            _output.TrivialWrite("var ");
             this.MakeLocalVariableList(node.Declaration);
 
             return node;
@@ -424,25 +424,25 @@ namespace SJC.Compiler
 
             if (node.Declaration != null)
             {
-                _output.Write(null, "var ");
+                _output.TrivialWrite("var ");
                 this.MakeLocalVariableList(node.Declaration);
             }
 
-            _output.Write(null, "; ");
+            _output.TrivialWrite("; ");
 
             this.VisitExpression(node.Condition);
-            _output.Write(null, "; ");
+            _output.TrivialWrite("; ");
 
             this.MakeExpressionList(node.Incrementors);
 
-            _output.WriteLine(null, ") {");
+            _output.TrivialWriteLine(") {");
 
             _output.IncreaseIndent();
             this.Visit(node.Statement);
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write('}');
+            _output.TrivialWrite('}');
             return node;
         }
 
@@ -456,7 +456,7 @@ namespace SJC.Compiler
                 _output.Write(node.ForEachKeyword, "for (var __idx${0} = 0; __idx${0} < ", node.Identifier.ValueText);
                 VisitExpression(node.Expression);
                 _output.Write(node.Identifier, ".length; __idx${0}++) ", node.Identifier.ValueText);
-                _output.WriteLine('{');
+                _output.TrivialWriteLine('{');
 
                 _output.IncreaseIndent();
                 _output.Write(node.Identifier, "var {0} = ", node.Identifier.ValueText);
@@ -466,20 +466,20 @@ namespace SJC.Compiler
                 this.Visit(node.Statement);
                 this.AppendCompensateSemicolon(node.Statement);
                 _output.DecreaseIndent();
-                _output.Write('}');
+                _output.TrivialWrite('}');
             }
             else
             {
                 _output.Write(node.ForEachKeyword, "for (var {0} in ", node.Identifier.ValueText);
                 VisitExpression(node.Expression);
-                _output.WriteLine(null, ") {");
+                _output.TrivialWriteLine(") {");
 
                 _output.IncreaseIndent();
                 this.Visit(node.Statement);
                 this.AppendCompensateSemicolon(node.Statement);
                 _output.DecreaseIndent();
 
-                _output.Write('}');
+                _output.TrivialWrite('}');
             }
 
             return node;
@@ -489,14 +489,14 @@ namespace SJC.Compiler
         {
             _output.Write(node.WhileKeyword, "while (");
             this.VisitExpression(node.Condition);
-            _output.WriteLine(null, ") {");
+            _output.TrivialWriteLine(") {");
 
             _output.IncreaseIndent();
             this.Visit(node.Statement);
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write('}');
+            _output.TrivialWrite('}');
             return node;
         }
 
@@ -511,7 +511,7 @@ namespace SJC.Compiler
 
             _output.Write(node.WhileKeyword, "} while (");
             VisitExpression(node.Condition);
-            _output.Write(')');
+            _output.TrivialWrite(')');
             return node;
         }
 
@@ -519,14 +519,14 @@ namespace SJC.Compiler
         {
             _output.Write(node.IfKeyword, "if ( ");
             this.VisitExpression(node.Condition);
-            _output.WriteLine(null, " ) {");
+            _output.TrivialWriteLine(" ) {");
 
             _output.IncreaseIndent();
             this.Visit(node.Statement);
             this.AppendCompensateSemicolon(node.Statement);
             _output.DecreaseIndent();
 
-            _output.Write('}');
+            _output.TrivialWrite('}');
             if (node.Else != null)
             {
                 _output.WriteLine(node.Else.ElseKeyword, " else {");
@@ -536,9 +536,9 @@ namespace SJC.Compiler
                 this.AppendCompensateSemicolon(node.Else.Statement);
                 _output.DecreaseIndent();
 
-                _output.Write('}');
+                _output.TrivialWrite('}');
             }
-            _output.WriteLine();
+            _output.TrivialWriteLine();
             return node;
         }
 
@@ -562,7 +562,7 @@ namespace SJC.Compiler
             this.Visit(node.Block);
             _output.DecreaseIndent();
 
-            _output.Write('}');
+            _output.TrivialWrite('}');
 
             string catchedName = null;
             if (node.Catches.Count > 0)
@@ -613,28 +613,28 @@ namespace SJC.Compiler
                                 _output.Write(c.Declaration, "if ({0}.name == \"{1}\") ", catchedName, typename);
                             else
                                 _output.Write(c.Declaration, "if ({0}.name == \"{1}\") ", catchedName, typename);
-                            _output.WriteLine('{');
+                            _output.TrivialWriteLine('{');
                             _output.IncreaseIndent();
                             this.Visit(c.Block);
                             _output.DecreaseIndent();
-                            _output.Write('}');
+                            _output.TrivialWrite('}');
                         }
                         else
                         {
-                            _output.WriteLine('{');
+                            _output.TrivialWriteLine('{');
                             _output.IncreaseIndent();
                             this.Visit(c.Block);
                             _output.DecreaseIndent();
-                            _output.Write('}');
+                            _output.TrivialWrite('}');
                         }
 
                         count++;
                     }
                 }
                 if (node.Catches.Count > 1)
-                    _output.WriteLine();
+                    _output.TrivialWriteLine();
                 _output.DecreaseIndent();
-                _output.Write('}');
+                _output.TrivialWrite('}');
             }
 
             if (node.Finally != null)
@@ -645,7 +645,7 @@ namespace SJC.Compiler
                 this.Visit(node.Finally.Block);
                 _output.DecreaseIndent();
 
-                _output.Write('}');
+                _output.TrivialWrite('}');
             }
 
             return node;
@@ -676,7 +676,7 @@ namespace SJC.Compiler
         {
             _output.Write(node.SwitchKeyword, "switch (");
             this.Visit(node.Expression);
-            _output.WriteLine(null, ") {");
+            _output.TrivialWriteLine(") {");
             _output.IncreaseIndent();
 
             foreach (var section in node.Sections)
@@ -686,11 +686,11 @@ namespace SJC.Compiler
                     _output.Write(lbl.Keyword, lbl.Keyword.ValueText);
                     if (lbl.Keyword.Kind() == SyntaxKind.CaseKeyword)
                     {
-                        _output.Write(' ');
+                        _output.TrivialWrite(' ');
                         var caseLbl = lbl as CaseSwitchLabelSyntax;
                         this.VisitExpression(caseLbl.Value);
                     }
-                    _output.WriteLine(':');
+                    _output.TrivialWriteLine(':');
                 }
 
                 _output.IncreaseIndent();
@@ -705,7 +705,7 @@ namespace SJC.Compiler
                         case SyntaxKind.LocalDeclarationStatement:
                         case SyntaxKind.ReturnStatement:
                         case SyntaxKind.ThrowStatement:
-                            _output.WriteLine(';');
+                            _output.TrivialWriteLine(';');
                             break;
                     }
                 }
@@ -713,7 +713,7 @@ namespace SJC.Compiler
             }
 
             _output.DecreaseIndent();
-            _output.WriteLine('}');
+            _output.TrivialWriteLine('}');
 
             return node;
         }
@@ -750,13 +750,13 @@ namespace SJC.Compiler
                     Visit(member);
                     count++;
                     if (count != node.Members.Count)
-                        _output.WriteLine(',');
+                        _output.TrivialWriteLine(',');
                 }
 
                 if (_indentType)
                     _output.DecreaseIndent();
 
-                _output.Write(null, interfaceTemplate.GetEndString());
+                _output.TrivialWrite(interfaceTemplate.GetEndString());
                 if (node.BaseList != null)
                 {
                     this.AppendCompileIssue(node, IssueType.Error, IssueId.InterfaceInheritNotSupport);
@@ -788,12 +788,12 @@ namespace SJC.Compiler
                     count++;
                     if (count != node.Members.Count)
                     {
-                        _output.WriteLine(',');
+                        _output.TrivialWriteLine(',');
                     }
                 }
                 _output.DecreaseIndent();
 
-                _output.WriteLine(null, enumTemplate.GetEndString());
+                _output.TrivialWriteLine(enumTemplate.GetEndString());
 
                 if (node.BaseList != null)
                 {
@@ -908,7 +908,7 @@ namespace SJC.Compiler
         public override SyntaxNode VisitEnumMemberDeclaration(EnumMemberDeclarationSyntax node)
         {
             _output.Write(node.Identifier, node.Identifier.ValueText);
-            _output.Write(null, ": ");
+            _output.TrivialWrite(": ");
             var info = _semanticModel.GetDeclaredSymbol(node);
             string val;
             bool hasAttr = info.GetEnumValue(out val);

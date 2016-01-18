@@ -17,9 +17,9 @@ namespace SJC.Compiler
         public override SyntaxNode VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax node)
         {
             this.AppendCompileIssue(node, IssueType.Error, IssueId.StringInterpolation);
-            _output.Write('"');
+            _output.TrivialWrite('"');
             _output.Write(node, node.Contents.ToFullString());
-            _output.Write('"');
+            _output.TrivialWrite('"');
             return node;
         }
 
@@ -27,9 +27,9 @@ namespace SJC.Compiler
         {
             if (IsNameOfOperator(node))
             {
-                _output.Write('"');
+                _output.TrivialWrite('"');
                 this.Visit(node.ArgumentList);
-                _output.Write('"');
+                _output.TrivialWrite('"');
                 return node;
             }
 
@@ -74,25 +74,25 @@ namespace SJC.Compiler
                 else
                     this.VisitExpression(node.Expression);
             }
-            _output.Write('(');
+            _output.TrivialWrite('(');
             this.MakeArgumentsList(node.ArgumentList.Arguments);
-            _output.Write(')');
+            _output.TrivialWrite(')');
 
             return node;
         }
 
         public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
         {
-            _output.Write('[');
+            _output.TrivialWrite('[');
             int count = 0;
             foreach (var expr in node.Expressions)
             {
                 Visit(expr);
                 count++;
                 if (count < node.Expressions.Count)
-                    _output.Write(null, ", ");
+                    _output.TrivialWrite(", ");
             }
-            _output.Write(']');
+            _output.TrivialWrite(']');
             return node;
         }
 
@@ -147,13 +147,13 @@ namespace SJC.Compiler
         public override SyntaxNode VisitElementAccessExpression(ElementAccessExpressionSyntax node)
         {
             this.VisitExpression(node.Expression);
-            _output.Write('[');
+            _output.TrivialWrite('[');
             if (node.ArgumentList.Arguments.Count > 1)
             {
                 this.AppendCompileIssue(node, IssueType.Error, IssueId.MultiDimensionArrayAccessNotSupport);
             }
             this.MakeArgumentsList(node.ArgumentList.Arguments);
-            _output.Write(']');
+            _output.TrivialWrite(']');
             return node;
         }
 
@@ -199,7 +199,7 @@ namespace SJC.Compiler
             else
             {
                 this.Visit(node.Left);
-                _output.Write(null, node.DotToken.ValueText);
+                _output.TrivialWrite(node.DotToken.ValueText);
                 _output.Write(node.Right, node.Right.Identifier.ValueText);
             }
             return node;
@@ -207,9 +207,9 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitParenthesizedExpression(ParenthesizedExpressionSyntax node)
         {
-            _output.Write('(');
+            _output.TrivialWrite('(');
             this.VisitExpression(node.Expression);
-            _output.Write(')');
+            _output.TrivialWrite(')');
             return node;
         }
 
@@ -249,14 +249,14 @@ namespace SJC.Compiler
             {
                 case SyntaxKind.ElementBindingExpression:
                     var eb = node.WhenNotNull as ElementBindingExpressionSyntax;
-                    _output.Write('[');
+                    _output.TrivialWrite('[');
                     this.Visit(eb.ArgumentList);
-                    _output.Write(']');
+                    _output.TrivialWrite(']');
                     break;
 
                 case SyntaxKind.MemberBindingExpression:
                     var mb = node.WhenNotNull as MemberBindingExpressionSyntax;
-                    _output.Write('.');
+                    _output.TrivialWrite('.');
                     this.Visit(mb.Name);
                     break;
             }
@@ -299,14 +299,14 @@ namespace SJC.Compiler
                     _output.Write(node.Expression, info.Symbol.GetTypeSymbolName());
                     if (!IsGlobalHolder(node.Expression))
                     {
-                        _output.Write('.');
+                        _output.TrivialWrite('.');
                     }
                     this.Visit(node.Name);
                 }
                 else
                 {
                     this.VisitExpression(node.Expression);
-                    _output.Write('.');
+                    _output.TrivialWrite('.');
 
                     _isSetter = (node.Parent.Kind().IsAssignment() && _isAssignLeft);
                     this.Visit(node.Name);
@@ -329,11 +329,11 @@ namespace SJC.Compiler
                 switch (addParameterNumber)
                 {
                     case 1:
-                        _output.Write('[');
+                        _output.TrivialWrite('[');
                         break;
 
                     default:
-                        _output.Write('{');
+                        _output.TrivialWrite('{');
                         break;
                 }
 
@@ -356,7 +356,7 @@ namespace SJC.Compiler
                                     var implicitIdx = aexp.Left as ImplicitElementAccessSyntax;
 
                                     this.Visit(implicitIdx.ArgumentList);
-                                    _output.Write(null, ": ");
+                                    _output.TrivialWrite(": ");
                                     break;
                             }
 
@@ -365,7 +365,7 @@ namespace SJC.Compiler
                             count++;
                             if (count < node.Initializer.Expressions.Count)
                             {
-                                _output.Write(null, ", ");
+                                _output.TrivialWrite(", ");
                             }
                             break;
 
@@ -376,10 +376,10 @@ namespace SJC.Compiler
                             {
                                 this.Visit(item);
                                 if (i_count < iexp.Expressions.Count - 1)
-                                    _output.Write(null, ": ");
+                                    _output.TrivialWrite(": ");
                                 else
                                     if (count < node.Initializer.Expressions.Count - 1)
-                                    _output.Write(null, ", ");
+                                    _output.TrivialWrite(", ");
                                 i_count++;
                             }
                             count++;
@@ -390,7 +390,7 @@ namespace SJC.Compiler
                             count++;
                             if (count < node.Initializer.Expressions.Count)
                             {
-                                _output.Write(null, ", ");
+                                _output.TrivialWrite(", ");
                             }
                             break;
                     }
@@ -399,11 +399,11 @@ namespace SJC.Compiler
                 switch (addParameterNumber)
                 {
                     case 1:
-                        _output.Write(']');
+                        _output.TrivialWrite(']');
                         break;
 
                     default:
-                        _output.Write('}');
+                        _output.TrivialWrite('}');
                         break;
                 }
             }
@@ -413,7 +413,7 @@ namespace SJC.Compiler
 
                 if (info.Type.SpecialType == SpecialType.System_Object)
                 {
-                    _output.Write(null, "{}");
+                    _output.TrivialWrite("{}");
                 }
                 else if (info.Type.TypeKind == TypeKind.Delegate)
                 {
@@ -427,7 +427,7 @@ namespace SJC.Compiler
                     if (node.ArgumentList != null)
                         this.MakeArgumentsList(node.ArgumentList.Arguments);
 
-                    _output.Write(')');
+                    _output.TrivialWrite(')');
                 }
             }
 
@@ -439,7 +439,7 @@ namespace SJC.Compiler
             if (string.IsNullOrEmpty(_template.BaseKeyword))
                 this.AppendCompileIssue(node, IssueType.Error, IssueId.BaseCallNotSupport);
             else
-                _output.Write(null, _template.BaseKeyword);
+                _output.TrivialWrite(_template.BaseKeyword);
             return node;
         }
 
@@ -461,7 +461,7 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
         {
-            _output.Write('[');
+            _output.TrivialWrite('[');
 
             foreach (var rs in node.Type.RankSpecifiers)
                 this.Visit(rs);
@@ -474,11 +474,11 @@ namespace SJC.Compiler
                     this.VisitExpression(expr);
                     count++;
                     if (count != node.Initializer.Expressions.Count)
-                        _output.Write(null, ", ");
+                        _output.TrivialWrite(", ");
                 }
             }
 
-            _output.Write(']');
+            _output.TrivialWrite(']');
 
             return node;
         }
@@ -486,19 +486,19 @@ namespace SJC.Compiler
         public override SyntaxNode VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node)
         {
             _output.Write(node, "function ({0}) ", this.MakeParametersList(node.ParameterList));
-            _output.WriteLine('{');
+            _output.TrivialWriteLine('{');
 
             _output.IncreaseIndent();
             this.Visit(node.Block);
             _output.DecreaseIndent();
 
-            _output.Write('}');
+            _output.TrivialWrite('}');
             return node;
         }
 
         public override SyntaxNode VisitAnonymousObjectCreationExpression(AnonymousObjectCreationExpressionSyntax node)
         {
-            _output.Write('{');
+            _output.TrivialWrite('{');
             int count = 0;
             foreach (var member in node.Initializers)
             {
@@ -506,14 +506,14 @@ namespace SJC.Compiler
 
                 _output.Write(node, "\"" + NamingConvention.LowerCase1stChar(left) + "\"");
 
-                _output.Write(null, ": ");
+                _output.TrivialWrite(": ");
 
                 this.VisitExpression(member.Expression);
                 count++;
                 if (count != node.Initializers.Count)
-                    _output.Write(null, ", ");
+                    _output.TrivialWrite(", ");
             }
-            _output.Write('}');
+            _output.TrivialWrite('}');
             return node;
         }
 
@@ -574,7 +574,7 @@ namespace SJC.Compiler
                         else
                         {
                             if (!symbol.IsGlobalVariable())
-                                _output.Write(null, "this.");
+                                _output.TrivialWrite("this.");
                         }
                     }
 
@@ -589,7 +589,7 @@ namespace SJC.Compiler
                             }
                             else
                             {
-                                _output.Write(null, "this.");
+                                _output.TrivialWrite("this.");
                             }
                         }
                     }
@@ -637,9 +637,9 @@ namespace SJC.Compiler
         public override SyntaxNode VisitConditionalExpression(ConditionalExpressionSyntax node)
         {
             this.VisitExpression(node.Condition);
-            _output.Write(null, " ? ");
+            _output.TrivialWrite(" ? ");
             this.VisitExpression(node.WhenTrue);
-            _output.Write(null, " : ");
+            _output.TrivialWrite(" : ");
             this.VisitExpression(node.WhenFalse);
             return node;
         }
@@ -649,17 +649,17 @@ namespace SJC.Compiler
             var info = _semanticModel.GetTypeInfo(node);
 
             _output.Write(node, "function ({0}) ", node.Parameter.Identifier.ValueText);
-            _output.WriteLine('{');
+            _output.TrivialWriteLine('{');
             _output.IncreaseIndent();
                 
             if (info.DelegateReturnValue())
-                _output.Write(null, "return ");
+                _output.TrivialWrite("return ");
             this.Visit(node.Body);
             if (node.Body.Kind() != SyntaxKind.Block)
-                _output.WriteLine(';');
+                _output.TrivialWriteLine(';');
 
             _output.DecreaseIndent();
-            _output.Write('}');
+            _output.TrivialWrite('}');
 
             return node;
         }
@@ -669,20 +669,20 @@ namespace SJC.Compiler
             var info = _semanticModel.GetTypeInfo(node);
 
             _output.Write(node, "function ({0}) ", this.MakeParametersList(node.ParameterList));
-            _output.WriteLine('{');
+            _output.TrivialWriteLine('{');
             _output.IncreaseIndent();
             if (node.Body.Kind() != SyntaxKind.Block)
             {
                 if (info.DelegateReturnValue())
-                    _output.Write(null, "return ");
+                    _output.TrivialWrite("return ");
             }
             this.Visit(node.Body);
             if (node.Body.Kind() != SyntaxKind.Block)
             {
-                _output.WriteLine(';');
+                _output.TrivialWriteLine(';');
             }
             _output.DecreaseIndent();
-            _output.Write('}');
+            _output.TrivialWrite('}');
             return node;
         }
 
@@ -724,9 +724,9 @@ namespace SJC.Compiler
                 _isAssignLeft = true;
                 this.Visit(node.Left);
                 _isAssignLeft = false;
-                _output.Write('(');
+                _output.TrivialWrite('(');
                 this.Visit(node.Right);
-                _output.Write(')');
+                _output.TrivialWrite(')');
             }
             else
             {
