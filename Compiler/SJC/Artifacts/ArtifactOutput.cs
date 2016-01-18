@@ -15,16 +15,10 @@ namespace SJC.Artifacts
             set { _jsOutput = value; }
         }
 
-        private void DebugWrite(SyntaxNode node, Position pos, string str)
+        private void DebugWrite(SyntaxNodeOrToken node, Position pos, string str)
         {
-            if (node.Kind() == SyntaxKind.IdentifierName || node.Kind() == SyntaxKind.IdentifierToken)
+            if (node.Kind() == SyntaxKind.IdentifierName || node.Kind() == SyntaxKind.IdentifierToken || node.Kind() == SyntaxKind.ObjectCreationExpression)
                 System.Diagnostics.Debug.WriteLine($"{node} ---> [{node.Kind()} | {pos}] ---> {str}");
-        }
-
-        private void DebugWrite(SyntaxToken token, Position pos, string str)
-        {
-            if (token.Kind() == SyntaxKind.IdentifierName || token.Kind() == SyntaxKind.IdentifierToken)
-                System.Diagnostics.Debug.WriteLine($"{token} ---> [{token.Kind()} | {pos}] ---> {str}");
         }
 
         public void IncreaseIndent()
@@ -62,56 +56,30 @@ namespace SJC.Artifacts
             _jsOutput.WriteLine(str);
         }
 
-        public void Write(SyntaxNode syntax, String str)
+        public void Write(SyntaxNodeOrToken syntax, String str)
         {
             var pos = _jsOutput.Write(str);
             this.DebugWrite(syntax, pos, str);
         }
 
-        public void Write(SyntaxNode syntax, String fmt, params object[] args)
+        public void Write(SyntaxNodeOrToken syntax, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.Write(str);
             this.DebugWrite(syntax, pos, str);
         }
 
-        public void WriteLine(SyntaxNode syntax, String str)
+        public void WriteLine(SyntaxNodeOrToken syntax, String str)
         {
             var pos = _jsOutput.WriteLine(str);
             this.DebugWrite(syntax, pos, str);
         }
 
-        public void WriteLine(SyntaxNode syntax, String fmt, params object[] args)
+        public void WriteLine(SyntaxNodeOrToken syntax, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.WriteLine(str);
             this.DebugWrite(syntax, pos, str);
-        }
-
-        public void Write(SyntaxToken token, String str)
-        {
-            var pos = _jsOutput.Write(str);
-            this.DebugWrite(token, pos, str);
-        }
-
-        public void Write(SyntaxToken token, String fmt, params object[] args)
-        {
-            var str = string.Format(fmt, args);
-            var pos = _jsOutput.Write(str);
-            this.DebugWrite(token, pos, str);
-        }
-
-        public void WriteLine(SyntaxToken token, String str)
-        {
-            var pos = _jsOutput.WriteLine(str);
-            this.DebugWrite(token, pos, str);
-        }
-
-        public void WriteLine(SyntaxToken token, String fmt, params object[] args)
-        {
-            var str = string.Format(fmt, args);
-            var pos = _jsOutput.WriteLine(str);
-            this.DebugWrite(token, pos, str);
         }
     }
 }
