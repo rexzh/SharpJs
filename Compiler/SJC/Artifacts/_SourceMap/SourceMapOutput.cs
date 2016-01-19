@@ -99,12 +99,27 @@ namespace SJC.Artifacts
             _names.Add(name);
         }
 
-        private int _line = 1;
+        private int _line = 0;
         public void AddMapping(SyntaxNodeOrToken node, Position pos)
         {
             var srcPos = node.GetLocation().GetLineSpan().StartLinePosition;
-            //TODO:step1: [col, _srcIdx, srcPos.Line, srcPos.Character]
-            _mapping.Append("");
+            if (_line == pos.Line)
+            {
+                if (_mapping.Length > 0 && _mapping[_mapping.Length - 1] != ';')
+                    _mapping.Append(',');
+            }
+            else
+            {
+                while (_line < pos.Line)
+                {
+                    _mapping.Append(';');
+                    _line++;
+                }
+            }
+            //TODO:Encode [col, _srcIdx, srcPos.Line, srcPos.Character]
+            //https://github.com/mozilla/source-map/blob/master/lib/base64-vlq.js
+            //https://github.com/mozilla/source-map/blob/master/lib/base64.js
+            _mapping.Append($"[{pos.Column}, {_srcIdx}, {srcPos.Line}, {srcPos.Character}]");
         }
     }
 }
