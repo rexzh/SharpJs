@@ -79,7 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Artifacts\ArtifactOutput.cs" />
+    <Compile Include="Artifacts\ISourceMapOutput.cs" />
     <Compile Include="Artifacts\Position.cs" />
+    <Compile Include="Artifacts\_SourceMap\SourceMapConsoleOutput.cs" />
+    <Compile Include="Artifacts\_SourceMap\SourceMapFileOutput.cs" />
     <Compile Include="Compiler\CodeTemplate.cs" />
     <Compile Include="Compiler\Constants.cs" />
     <Compile Include="Compiler\CompileEngine.cs" />
@@ -102,10 +105,10 @@
     <Compile Include="Compiler\Sjc.cs" />
     <Compile Include="Artifacts\ArtifactsFactory.cs" />
     <Compile Include="Artifacts\ConsoleArtifacts.cs" />
-    <Compile Include="Artifacts\FileOutput.cs" />
+    <Compile Include="Artifacts\_JavaScript\JavaScriptFileOutput.cs" />
     <Compile Include="Artifacts\IArtifacts.cs" />
-    <Compile Include="Artifacts\ConsoleOutput.cs" />
-    <Compile Include="Artifacts\IndentType.cs" />
+    <Compile Include="Artifacts\_JavaScript\JavaScriptConsoleOutput.cs" />
+    <Compile Include="Artifacts\_JavaScript\IndentType.cs" />
     <Compile Include="Artifacts\IJavaScriptOutput.cs" />
     <Compile Include="Compiler\_Rewriter\Rewriter.cs" />
     <Compile Include="Compiler\_Rewriter\Rewriter_Expression.cs" />
@@ -130,7 +133,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Artifacts\MultipleFileArtifacts.cs" />
-    <Compile Include="Artifacts\Output.cs" />
+    <Compile Include="Artifacts\_JavaScript\JavaScriptOutput.cs" />
     <Compile Include="Artifacts\SingleFileArtifacts.cs" />
     <Compile Include="StdErr\ConsoleOutput.cs" />
     <Compile Include="StdErr\IOutput.cs" />
@@ -153,6 +156,7 @@
       <Name>JavaScript</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

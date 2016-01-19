@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SJC.Artifacts
 {
-    sealed class FileOutput : Output
+    sealed class JavaScriptFileOutput : JavaScriptOutput
     {
         private StreamWriter _w;
-        public FileOutput(string path)
+        public JavaScriptFileOutput(string path)
         {
             _w = new StreamWriter(path, false, Encoding.ASCII);
         }

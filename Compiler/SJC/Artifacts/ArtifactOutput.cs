@@ -15,6 +15,20 @@ namespace SJC.Artifacts
             set { _jsOutput = value; }
         }
 
+        private bool _generateSourceMap;
+        public bool GenerateSourceMap
+        {
+            get { return _generateSourceMap; }
+            set { _generateSourceMap = value; }
+        }
+
+        private ISourceMapOutput _sourceMapOutput;
+        public ISourceMapOutput SourceMapOutput
+        {
+            get { return _sourceMapOutput; }
+            set { _sourceMapOutput = value; }
+        }
+
         private void DebugWrite(SyntaxNodeOrToken node, Position pos, string str)
         {
             if (node.Kind() == SyntaxKind.IdentifierName || node.Kind() == SyntaxKind.IdentifierToken || node.Kind() == SyntaxKind.ObjectCreationExpression)

@@ -10,7 +10,8 @@ namespace SJC.Artifacts
     {
         private IJavaScriptOutput _jsOutput;
         private string _outputDir;
-
+        
+        public bool GenerateSourceMap { get; set; }
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
 
@@ -31,13 +32,17 @@ namespace SJC.Artifacts
         {
             if (_jsOutput != null)
             {
+                if(GenerateSourceMap)
+                {
+                    //TODO:
+                }
                 if (WriteWaterMark)
                     _jsOutput.WriteLine(WaterMark);
                 _jsOutput.Flush();
                 _jsOutput.Dispose();
             }
             string path = Path.Combine(_outputDir, sourceFile + ".js");
-            _jsOutput = new FileOutput(path);
+            _jsOutput = new JavaScriptFileOutput(path);
             _output.JsOutput = _jsOutput;
         }
 
@@ -52,6 +57,10 @@ namespace SJC.Artifacts
         {
             if (!_disposed)
             {
+                if(GenerateSourceMap)
+                {
+                    //TODO:
+                }
                 if (WriteWaterMark)
                     this._jsOutput.WriteLine(WaterMark);
                 _jsOutput.Dispose();

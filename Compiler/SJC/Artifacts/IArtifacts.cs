@@ -10,6 +10,7 @@ namespace SJC.Artifacts
     {
         bool WriteWaterMark { get; set; }
         string WaterMark { get; set; }
+        bool GenerateSourceMap { get; set; }
         void SwitchSource(string sourceFile);
         ArtifactOutput Output { get; }
         void Close();

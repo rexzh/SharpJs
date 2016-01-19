@@ -51,10 +51,18 @@ namespace SJC.Compiler
             set { _supressWarnings = value; }
         }
 
+        private bool _generateSourceMap;
+        public bool GenerateSourceMap
+        {
+            get { return _generateSourceMap; }
+            set { _generateSourceMap = value; }
+        }
+
         public override bool Execute()
         {
             CompileEngine engine = new CompileEngine();
             CompileOptions options = new CompileOptions(_singleFile ? ArtifactsType.SingleFile : ArtifactsType.MultipleFile, _build);
+            options.GenerateSourceMap = this._generateSourceMap;
             engine.InitializeCompiler(this._csprojPath, options, _supressWarnings);
 
             var watch = Stopwatch.StartNew();

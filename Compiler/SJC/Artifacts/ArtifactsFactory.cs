@@ -17,7 +17,7 @@ namespace SJC.Artifacts
     {
         public static IArtifacts Create(ArtifactsType artifactsType, string outputDir, string outputFile, IndentType indentType = IndentType.Space4)
         {
-            switch(artifactsType)
+            switch (artifactsType)
             {
                 case ArtifactsType.SingleFile:
                     return new SingleFileArtifacts(outputDir, outputFile);

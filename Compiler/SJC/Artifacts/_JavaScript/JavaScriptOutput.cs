@@ -8,7 +8,7 @@ using RexToy;
 
 namespace SJC.Artifacts
 {
-    public abstract class Output : IJavaScriptOutput
+    public abstract class JavaScriptOutput : IJavaScriptOutput
     {
         private const char SPACE = ' ';
 
@@ -24,7 +24,7 @@ namespace SJC.Artifacts
         private int _line = 0;
         private int _column = 0;
 
-        protected Output(IndentType indentType = IndentType.Space4)
+        protected JavaScriptOutput(IndentType indentType = IndentType.Space4)
         {
             switch (indentType)
             {

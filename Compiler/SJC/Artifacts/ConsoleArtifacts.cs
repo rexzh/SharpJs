@@ -6,6 +6,7 @@ namespace SJC.Artifacts
     {
         private IJavaScriptOutput _jsOutput;
 
+        public bool GenerateSourceMap { get; set; }
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
 
@@ -17,7 +18,7 @@ namespace SJC.Artifacts
 
         public ConsoleArtifacts()
         {
-            _jsOutput = new ConsoleOutput();
+            _jsOutput = new JavaScriptConsoleOutput();
 
             _output = new ArtifactOutput();
             _output.JsOutput = _jsOutput;
@@ -31,6 +32,10 @@ namespace SJC.Artifacts
         public void Dispose()
         {
             ConsoleSettings.SetForeGroundColour(ConsoleColor.Cyan, false);
+            if(GenerateSourceMap)
+            {
+                //TODO:
+            }
             if (WriteWaterMark)
                 _jsOutput.WriteLine(WaterMark);
             ConsoleSettings.SetForeGroundColour();
@@ -38,6 +43,7 @@ namespace SJC.Artifacts
 
         public void SwitchSource(string sourceFile)
         {
+            //TODO:
         }
     }
 }

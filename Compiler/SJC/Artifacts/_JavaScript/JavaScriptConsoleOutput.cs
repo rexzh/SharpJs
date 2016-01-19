@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SJC.Artifacts
 {
-    class ConsoleOutput : Output
+    class JavaScriptConsoleOutput : JavaScriptOutput
     {
-        public ConsoleOutput(IndentType indentType = IndentType.Space4) : base(indentType)
+        public JavaScriptConsoleOutput(IndentType indentType = IndentType.Space4) : base(indentType)
         {
         }
 

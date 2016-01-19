@@ -19,6 +19,7 @@ namespace SJC
         private static string _suppressWarnings = string.Empty;
         private static bool _singleFile = true;
         private static bool _writeFile = true;
+        private static bool _generateSourceMap = true;
 
         private static bool ExtractParams(string[] args)
         {
@@ -55,6 +56,11 @@ namespace SJC
                     _suppressWarnings = arg.Substring(idx + 1);
                     continue;
                 }
+                if (p == "m" || p == "-m")
+                {
+                    _generateSourceMap = bool.Parse(arg.Substring(idx + 1));
+                    continue;
+                }
                 return false;
             }
             if (string.IsNullOrEmpty(_csprojFile))
@@ -76,6 +82,7 @@ namespace SJC
             System.Console.WriteLine("     w: write to file(true write to file[which is default], false write to console).");
             System.Console.WriteLine("     i: supress cpmpile warning #.");
             System.Console.WriteLine("     c: Debug or Release (default is debug)");
+            System.Console.WriteLine("     m: Generate Source Map");
             System.Console.WriteLine(@"    Example: -p:..\..\Sample\Sample.csproj");
             System.Console.WriteLine(@"Recommend usage, in VS project post-build event:");
             System.Console.WriteLine(@"    [Path]SJC -p:$(ProjectDir)$(ProjectFileName) -s:false -i:1029,1030");
@@ -107,6 +114,7 @@ namespace SJC
 
 
                 CompileOptions opts = new CompileOptions(artifactsType, _config);
+                opts.GenerateSourceMap = _generateSourceMap;
 
                 engine.InitializeCompiler(_csprojFile, opts, _suppressWarnings);
                 var errors = engine.Compile();

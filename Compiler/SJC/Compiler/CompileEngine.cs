@@ -175,6 +175,8 @@ namespace SJC.Compiler
         {
             IArtifacts artifacts = ArtifactsFactory.Create(_options.ArtifactsType, _outputDir, _outputScript);
             artifacts.WriteWaterMark = _options.WriteWaterMark;
+            artifacts.GenerateSourceMap = _options.GenerateSourceMap;
+
             artifacts.WaterMark = string.Format("//+++ This file is compiled by {0} {1} from C#. +++", Constants.SharpJs, Constants.GetVersion());
 
             foreach (SyntaxTree sourceTree in trees)

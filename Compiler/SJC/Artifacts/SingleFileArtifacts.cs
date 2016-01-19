@@ -9,6 +9,8 @@ namespace SJC.Artifacts
     sealed class SingleFileArtifacts : IArtifacts
     {
         private IJavaScriptOutput _jsOutput;
+
+        public bool GenerateSourceMap { get; set; }
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
 
@@ -21,7 +23,7 @@ namespace SJC.Artifacts
         public SingleFileArtifacts(string outputDir, string outputFile)
         {
             string path = Path.Combine(outputDir, outputFile);
-            _jsOutput = new FileOutput(path);
+            _jsOutput = new JavaScriptFileOutput(path);
 
             _output = new ArtifactOutput();
             _output.JsOutput = _jsOutput;
@@ -34,6 +36,7 @@ namespace SJC.Artifacts
 
         public void SwitchSource(string sourceFile)
         {
+            //TODO:
         }
 
         #region IDisposable Support
@@ -42,6 +45,10 @@ namespace SJC.Artifacts
         {
             if (!_disposed)
             {
+                if(GenerateSourceMap)
+                {
+                    //TODO:
+                }
                 if (this.WriteWaterMark)
                     this._jsOutput.WriteLine(WaterMark);
                 _jsOutput.Dispose();
