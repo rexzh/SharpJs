@@ -8,8 +8,6 @@ namespace SJC.Artifacts
 {
     sealed class SingleFileArtifacts : IArtifacts
     {
-        private IJavaScriptOutput _jsOutput;
-
         public bool GenerateSourceMap { get; set; }
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
@@ -20,23 +18,20 @@ namespace SJC.Artifacts
             get { return _output; }
         }
 
+        private string _destPath;
         public SingleFileArtifacts(string outputDir, string outputFile)
         {
-            string path = Path.Combine(outputDir, outputFile);
-            _jsOutput = new JavaScriptFileOutput(path);
+            _destPath = Path.Combine(outputDir, outputFile);
 
             _output = new ArtifactOutput();
-            _output.JsOutput = _jsOutput;
-        }
-
-        public void Close()
-        {
-            this.Dispose();
+            _output.JsOutput = new JavaScriptFileOutput(_destPath);
+            _output.SourceMapOutput = new SourceMapFileOutput(_destPath + ArtifactsFactory.SourceMapFileExtension);
+            _output.SourceMapOutput.File = outputFile;
         }
 
         public void SwitchSource(string sourceFile)
         {
-            //TODO:
+            _output.SourceMapOutput.AddSource(sourceFile + ArtifactsFactory.CSharpFileExtension);
         }
 
         #region IDisposable Support
@@ -47,11 +42,11 @@ namespace SJC.Artifacts
             {
                 if(GenerateSourceMap)
                 {
-                    //TODO:
+                    this._output.TrivialWriteLine(string.Format(ArtifactsFactory.SrcMapRefLine, Path.GetFileName(_destPath)));
                 }
                 if (this.WriteWaterMark)
-                    this._jsOutput.WriteLine(WaterMark);
-                _jsOutput.Dispose();
+                    this._output.TrivialWriteLine(WaterMark);
+                _output.Dispose();
                 _disposed = true;
                 GC.SuppressFinalize(this);
             }

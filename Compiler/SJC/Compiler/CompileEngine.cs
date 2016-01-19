@@ -45,7 +45,7 @@ namespace SJC.Compiler
             XDoc doc = XDoc.LoadFromFile(csprojPath);
             doc.AddNamespace("x", "http://schemas.microsoft.com/developer/msbuild/2003");
 
-            _outputScript = doc.GetStringValue(@"x:PropertyGroup/x:AssemblyName") + ".js";
+            _outputScript = doc.GetStringValue(@"x:PropertyGroup/x:AssemblyName") + ArtifactsFactory.JavaScriptFileExtension;
 
 
             var cfgList = doc.NavigateToList(@"x:PropertyGroup[@Condition]");
@@ -188,7 +188,7 @@ namespace SJC.Compiler
                 SyntaxNode newSource = w.Visit(sourceTree.GetRoot());
             }
 
-            artifacts.Close();
+            artifacts.Dispose();
         }
     }
 }

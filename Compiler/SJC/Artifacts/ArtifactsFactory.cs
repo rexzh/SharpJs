@@ -15,6 +15,12 @@ namespace SJC.Artifacts
 
     public static class ArtifactsFactory
     {
+        public const string SrcMapRefLine = "//# sourceMappingURL=./{0}.map";
+        public const string ConsoleJs = "console.js";
+        public const string JavaScriptFileExtension = ".js";
+        public const string CSharpFileExtension = ".cs";
+        public const string SourceMapFileExtension = ".map";
+
         public static IArtifacts Create(ArtifactsType artifactsType, string outputDir, string outputFile, IndentType indentType = IndentType.Space4)
         {
             switch (artifactsType)

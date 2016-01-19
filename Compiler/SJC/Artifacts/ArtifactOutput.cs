@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace SJC.Artifacts
 {
-    public class ArtifactOutput
+    public sealed class ArtifactOutput : IDisposable
     {
         private IJavaScriptOutput _jsOutput;
         public IJavaScriptOutput JsOutput
@@ -29,10 +29,13 @@ namespace SJC.Artifacts
             set { _sourceMapOutput = value; }
         }
 
-        private void DebugWrite(SyntaxNodeOrToken node, Position pos, string str)
+        private void WriteSourceMap(SyntaxNodeOrToken node, Position pos, string str)
         {
             if (node.Kind() == SyntaxKind.IdentifierName || node.Kind() == SyntaxKind.IdentifierToken || node.Kind() == SyntaxKind.ObjectCreationExpression)
+            {
                 System.Diagnostics.Debug.WriteLine($"{node} ---> [{node.Kind()} | {pos}] ---> {str}");
+                _sourceMapOutput.AddMapping(node, pos);
+            }
         }
 
         public void IncreaseIndent()
@@ -73,27 +76,39 @@ namespace SJC.Artifacts
         public void Write(SyntaxNodeOrToken syntax, String str)
         {
             var pos = _jsOutput.Write(str);
-            this.DebugWrite(syntax, pos, str);
+            this.WriteSourceMap(syntax, pos, str);
         }
 
         public void Write(SyntaxNodeOrToken syntax, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.Write(str);
-            this.DebugWrite(syntax, pos, str);
+            this.WriteSourceMap(syntax, pos, str);
         }
 
         public void WriteLine(SyntaxNodeOrToken syntax, String str)
         {
             var pos = _jsOutput.WriteLine(str);
-            this.DebugWrite(syntax, pos, str);
+            this.WriteSourceMap(syntax, pos, str);
         }
 
         public void WriteLine(SyntaxNodeOrToken syntax, String fmt, params object[] args)
         {
             var str = string.Format(fmt, args);
             var pos = _jsOutput.WriteLine(str);
-            this.DebugWrite(syntax, pos, str);
+            this.WriteSourceMap(syntax, pos, str);
+        }
+
+        private bool _disposed = false;
+        public void Dispose()
+        {
+            if(!_disposed)
+            {
+                _jsOutput.Dispose();
+                _sourceMapOutput.Dispose();
+            }
+            _disposed = true;
+            GC.SuppressFinalize(this);
         }
     }
 }

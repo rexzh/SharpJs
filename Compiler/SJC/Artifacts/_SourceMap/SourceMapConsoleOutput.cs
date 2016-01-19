@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace SJC.Artifacts
 {
-    //TODO: Implement
-    sealed class SourceMapConsoleOutput : ISourceMapOutput
+    sealed class SourceMapConsoleOutput : SourceMapOutput
     {
-        public void Dispose()
+        public override void Dispose()
         {
-            //TODO: Dispose
+            Flush();
+        }
+
+        protected override void Write(string str)
+        {
+            System.Console.Write(str);
+        }
+
+        protected override void WriteLine(string str)
+        {
+            System.Console.WriteLine(str);
         }
     }
 }

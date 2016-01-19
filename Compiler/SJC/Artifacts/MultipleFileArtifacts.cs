@@ -8,9 +8,8 @@ namespace SJC.Artifacts
 {
     sealed class MultipleFileArtifacts : IArtifacts
     {
-        private IJavaScriptOutput _jsOutput;
         private string _outputDir;
-        
+
         public bool GenerateSourceMap { get; set; }
         public string WaterMark { get; set; }
         public bool WriteWaterMark { get; set; }
@@ -28,27 +27,26 @@ namespace SJC.Artifacts
             _output = new ArtifactOutput();
         }
 
+        private string _destPath;
         public void SwitchSource(string sourceFile)
         {
-            if (_jsOutput != null)
+            if (_output.JsOutput != null)
             {
-                if(GenerateSourceMap)
+                if (GenerateSourceMap)
                 {
-                    //TODO:
+                    _output.TrivialWriteLine(string.Format(ArtifactsFactory.SrcMapRefLine, Path.GetFileName(_destPath)));
                 }
                 if (WriteWaterMark)
-                    _jsOutput.WriteLine(WaterMark);
-                _jsOutput.Flush();
-                _jsOutput.Dispose();
-            }
-            string path = Path.Combine(_outputDir, sourceFile + ".js");
-            _jsOutput = new JavaScriptFileOutput(path);
-            _output.JsOutput = _jsOutput;
-        }
+                    _output.TrivialWriteLine(WaterMark);
 
-        public void Close()
-        {
-            this.Dispose();
+                _output.JsOutput.Dispose();
+                _output.SourceMapOutput.Dispose();
+            }
+            _destPath = Path.Combine(_outputDir, sourceFile + ArtifactsFactory.JavaScriptFileExtension);
+            _output.JsOutput = new JavaScriptFileOutput(_destPath);
+            _output.SourceMapOutput = new SourceMapFileOutput(_destPath + ArtifactsFactory.SourceMapFileExtension);
+            _output.SourceMapOutput.File = sourceFile + ArtifactsFactory.JavaScriptFileExtension;
+            _output.SourceMapOutput.AddSource(sourceFile + ArtifactsFactory.CSharpFileExtension);
         }
 
         #region IDisposable Support
@@ -57,13 +55,13 @@ namespace SJC.Artifacts
         {
             if (!_disposed)
             {
-                if(GenerateSourceMap)
+                if (GenerateSourceMap)
                 {
-                    //TODO:
+                    _output.TrivialWriteLine(string.Format(ArtifactsFactory.SrcMapRefLine, Path.GetFileName(_destPath)));
                 }
                 if (WriteWaterMark)
-                    this._jsOutput.WriteLine(WaterMark);
-                _jsOutput.Dispose();
+                    this._output.TrivialWriteLine(WaterMark);
+                _output.Dispose();
                 _disposed = true;
                 GC.SuppressFinalize(this);
             }

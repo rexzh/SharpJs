@@ -11,7 +11,7 @@ namespace SJC.Artifacts
         private StreamWriter _w;
         public JavaScriptFileOutput(string path)
         {
-            _w = new StreamWriter(path, false, Encoding.ASCII);
+            _w = new StreamWriter(path, false, Encoding.UTF8);
         }
 
         public override void Flush()

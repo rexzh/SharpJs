@@ -13,6 +13,5 @@ namespace SJC.Artifacts
         bool GenerateSourceMap { get; set; }
         void SwitchSource(string sourceFile);
         ArtifactOutput Output { get; }
-        void Close();
     }
 }

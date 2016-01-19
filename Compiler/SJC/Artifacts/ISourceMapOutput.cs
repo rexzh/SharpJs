@@ -1,12 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.CodeAnalysis;
 
 namespace SJC.Artifacts
 {
     public interface ISourceMapOutput : IDisposable
-    {
+    {   
+        int Version { get; set; }
+        string File { get; set; }
+        string SourceRoot { get; set; }
+        string[] Sources { get; }
+        string[] Names { get; }
+        string Mappings { get; }
+
+        void AddSource(string source);
+        void AddName(string name);
+        void AddMapping(SyntaxNodeOrToken node, Position pos);
     }
 }

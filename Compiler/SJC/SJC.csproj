@@ -83,6 +83,7 @@
     <Compile Include="Artifacts\Position.cs" />
     <Compile Include="Artifacts\_SourceMap\SourceMapConsoleOutput.cs" />
     <Compile Include="Artifacts\_SourceMap\SourceMapFileOutput.cs" />
+    <Compile Include="Artifacts\_SourceMap\SourceMapOutput.cs" />
     <Compile Include="Compiler\CodeTemplate.cs" />
     <Compile Include="Compiler\Constants.cs" />
     <Compile Include="Compiler\CompileEngine.cs" />
