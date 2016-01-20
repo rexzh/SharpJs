@@ -8,6 +8,8 @@ using Microsoft.CodeAnalysis;
 
 using RexToy;
 
+using SJC.Base64VLQ;
+
 namespace SJC.Artifacts
 {
     abstract class SourceMapOutput : ISourceMapOutput
@@ -120,8 +122,11 @@ namespace SJC.Artifacts
                     _line++;
                 }
             }
-            //TODO:Encode [col, _srcIdx, srcPos.Line, srcPos.Character]
-            _mapping.Append($"[{pos.Column}, {_srcIdx}, {srcPos.Line}, {srcPos.Character}]");
+            
+            _mapping.Append(Base64VLQEncoding.Encode(pos.Column));
+            _mapping.Append(Base64VLQEncoding.Encode(_srcIdx));
+            _mapping.Append(Base64VLQEncoding.Encode(srcPos.Line));
+            _mapping.Append(Base64VLQEncoding.Encode(srcPos.Character));
         }
     }
 }

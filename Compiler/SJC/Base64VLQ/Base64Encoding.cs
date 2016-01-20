@@ -8,7 +8,7 @@ namespace SJC.Base64VLQ
 {
     public class Base64Encoding
     {
-        private static char[] IntToCharMap = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray();
+        private static string IntToCharMap = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         public static char Encode(int n)
         {
             if (0 <= n || n < IntToCharMap.Length)

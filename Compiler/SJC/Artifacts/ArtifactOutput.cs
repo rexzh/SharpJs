@@ -15,6 +15,7 @@ namespace SJC.Artifacts
             set { _jsOutput = value; }
         }
 
+        //TODO:Hide from outside
         private bool _generateSourceMap;
         public bool GenerateSourceMap
         {
@@ -22,6 +23,7 @@ namespace SJC.Artifacts
             set { _generateSourceMap = value; }
         }
 
+        //TODO:Hide from outside
         private ISourceMapOutput _sourceMapOutput;
         public ISourceMapOutput SourceMapOutput
         {
