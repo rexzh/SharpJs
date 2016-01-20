@@ -43,7 +43,7 @@ namespace SJC.Compiler
 
         public override SyntaxNode VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
         {
-            string ns = node.Name.ToFullString();//TODO:More thorough visit
+            string ns = node.Name.ToFullString();//Extend: seems no need to further break down.
             var template = _template.CreateNamespaceTemplate();
             template.Assign(NamespaceTemplate.NAMESPACE, ns);
             if (!RegisteredNamespace.Contains(ns))

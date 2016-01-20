@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 
+using RexToy;
+
 namespace SJC.Artifacts
 {
     abstract class SourceMapOutput : ISourceMapOutput
@@ -90,6 +92,8 @@ namespace SJC.Artifacts
         private int _srcIdx;
         public void AddSource(string source)
         {
+            source = source.RemoveBegin('\\').Replace('\\', '/');
+
             _sources.Add(source);
             _srcIdx = _sources.Count - 1;
         }
@@ -117,8 +121,6 @@ namespace SJC.Artifacts
                 }
             }
             //TODO:Encode [col, _srcIdx, srcPos.Line, srcPos.Character]
-            //https://github.com/mozilla/source-map/blob/master/lib/base64-vlq.js
-            //https://github.com/mozilla/source-map/blob/master/lib/base64.js
             _mapping.Append($"[{pos.Column}, {_srcIdx}, {srcPos.Line}, {srcPos.Character}]");
         }
     }

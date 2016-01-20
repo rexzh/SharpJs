@@ -1,4 +1,5 @@
-﻿using SJC.Console;
+﻿using System.IO;
+using SJC.Console;
 
 namespace SJC.Artifacts
 {
@@ -37,9 +38,9 @@ namespace SJC.Artifacts
             _output.Dispose();
         }
 
-        public void SwitchSource(string sourceFile)
+        public void SwitchSource(string sourceFileRelPath)
         {
-            _output.SourceMapOutput.AddSource(sourceFile + ArtifactsFactory.CSharpFileExtension);
+            _output.SourceMapOutput.AddSource(sourceFileRelPath);
         }
     }
 }

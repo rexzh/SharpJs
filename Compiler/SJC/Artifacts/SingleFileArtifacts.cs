@@ -29,9 +29,9 @@ namespace SJC.Artifacts
             _output.SourceMapOutput.File = outputFile;
         }
 
-        public void SwitchSource(string sourceFile)
+        public void SwitchSource(string sourceFileRelPath)
         {
-            _output.SourceMapOutput.AddSource(sourceFile + ArtifactsFactory.CSharpFileExtension);
+            _output.SourceMapOutput.AddSource(sourceFileRelPath);
         }
 
         #region IDisposable Support

@@ -84,6 +84,8 @@
     <Compile Include="Artifacts\_SourceMap\SourceMapConsoleOutput.cs" />
     <Compile Include="Artifacts\_SourceMap\SourceMapFileOutput.cs" />
     <Compile Include="Artifacts\_SourceMap\SourceMapOutput.cs" />
+    <Compile Include="Base64VLQ\Base64Encoding.cs" />
+    <Compile Include="Base64VLQ\Base64VLQEncoding.cs" />
     <Compile Include="Compiler\CodeTemplate.cs" />
     <Compile Include="Compiler\Constants.cs" />
     <Compile Include="Compiler\CompileEngine.cs" />

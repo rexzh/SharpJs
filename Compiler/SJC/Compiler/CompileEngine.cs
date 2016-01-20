@@ -181,9 +181,8 @@ namespace SJC.Compiler
 
             foreach (SyntaxTree sourceTree in trees)
             {
-                string rel = sourceTree.FilePath.RemoveBegin(_startPath);
-                //TODO:Pass rel path into artifacts
-                artifacts.SwitchSource(Path.GetFileNameWithoutExtension(sourceTree.FilePath));
+                string relPath = sourceTree.FilePath.RemoveBegin(_startPath);
+                artifacts.SwitchSource(relPath);
                 SemanticModel model = c.GetSemanticModel(sourceTree);
 
                 Rewriter w = new Rewriter(model, _template, artifacts.Output, _aggregator);
