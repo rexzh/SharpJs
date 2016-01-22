@@ -18,9 +18,8 @@ namespace SJC.Artifacts
         public ConsoleArtifacts()
         {
             _output = new ArtifactOutput();
-            _output.JsOutput = new JavaScriptConsoleOutput();
-            _output.SourceMapOutput = new SourceMapConsoleOutput();
-            _output.SourceMapOutput.File = ArtifactsFactory.ConsoleJs;
+            _output.UseJavaScriptOutput(new JavaScriptConsoleOutput());
+            _output.UseSourceMapOutput(new SourceMapConsoleOutput(ArtifactsFactory.ConsoleJs));
         }
 
         public void Dispose()
@@ -40,7 +39,7 @@ namespace SJC.Artifacts
 
         public void SwitchSource(string sourceFileRelPath)
         {
-            _output.SourceMapOutput.AddSource(sourceFileRelPath);
+            _output.AddSourceMap(sourceFileRelPath);
         }
     }
 }

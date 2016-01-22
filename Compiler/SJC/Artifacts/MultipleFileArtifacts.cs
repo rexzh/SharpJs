@@ -30,7 +30,7 @@ namespace SJC.Artifacts
         private string _destPath;
         public void SwitchSource(string sourceFileRelPath)
         {
-            if (_output.JsOutput != null)
+            if (_output.IsWriting)
             {
                 if (GenerateSourceMap)
                 {
@@ -39,15 +39,13 @@ namespace SJC.Artifacts
                 if (WriteWaterMark)
                     _output.TrivialWriteLine(WaterMark);
 
-                _output.JsOutput.Dispose();
-                _output.SourceMapOutput.Dispose();
+                _output.CloseCurrentOutput();
             }
             string sourceFile = Path.GetFileNameWithoutExtension(sourceFileRelPath);
             _destPath = Path.Combine(_outputDir, sourceFile + ArtifactsFactory.JavaScriptFileExtension);
-            _output.JsOutput = new JavaScriptFileOutput(_destPath);
-            _output.SourceMapOutput = new SourceMapFileOutput(_destPath + ArtifactsFactory.SourceMapFileExtension);
-            _output.SourceMapOutput.File = sourceFile + ArtifactsFactory.JavaScriptFileExtension;
-            _output.SourceMapOutput.AddSource(sourceFile);
+            _output.UseJavaScriptOutput(new JavaScriptFileOutput(_destPath));
+            _output.UseSourceMapOutput(new SourceMapFileOutput(_destPath + ArtifactsFactory.SourceMapFileExtension, sourceFile + ArtifactsFactory.JavaScriptFileExtension));
+            _output.AddSourceMap(sourceFile);
         }
 
         #region IDisposable Support

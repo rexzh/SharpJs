@@ -7,7 +7,7 @@ namespace SJC.Artifacts
     public interface ISourceMapOutput : IDisposable
     {   
         int Version { get; set; }
-        string File { get; set; }
+        string File { get; }
         string SourceRoot { get; set; }
         string[] Sources { get; }
         string[] Names { get; }

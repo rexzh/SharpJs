@@ -24,14 +24,13 @@ namespace SJC.Artifacts
             _destPath = Path.Combine(outputDir, outputFile);
 
             _output = new ArtifactOutput();
-            _output.JsOutput = new JavaScriptFileOutput(_destPath);
-            _output.SourceMapOutput = new SourceMapFileOutput(_destPath + ArtifactsFactory.SourceMapFileExtension);
-            _output.SourceMapOutput.File = outputFile;
+            _output.UseJavaScriptOutput(new JavaScriptFileOutput(_destPath));
+            _output.UseSourceMapOutput(new SourceMapFileOutput(_destPath + ArtifactsFactory.SourceMapFileExtension, outputFile));
         }
 
         public void SwitchSource(string sourceFileRelPath)
         {
-            _output.SourceMapOutput.AddSource(sourceFileRelPath);
+            _output.AddSourceMap(sourceFileRelPath);
         }
 
         #region IDisposable Support

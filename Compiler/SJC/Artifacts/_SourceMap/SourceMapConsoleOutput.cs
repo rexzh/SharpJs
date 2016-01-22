@@ -8,6 +8,11 @@ namespace SJC.Artifacts
 {
     sealed class SourceMapConsoleOutput : SourceMapOutput
     {
+        public SourceMapConsoleOutput(string outputFileName) : base(outputFileName)
+        {
+
+        }
+
         public override void Dispose()
         {
             Flush();

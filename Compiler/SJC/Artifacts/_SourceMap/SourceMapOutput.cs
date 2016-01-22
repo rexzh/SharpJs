@@ -21,7 +21,7 @@ namespace SJC.Artifacts
 
         public int Version { get; set; } = 3;
 
-        public string File { get; set; }
+        public string File { get; }
 
         public string SourceRoot { get; set; }
 
@@ -54,8 +54,9 @@ namespace SJC.Artifacts
 
         private string _indent = new string(' ', 4);
 
-        protected SourceMapOutput()
+        protected SourceMapOutput(string outputFileName)
         {
+            this.File = outputFileName;
             _sources = new List<string>();
             _mapping = new StringBuilder();
             _names = new List<string>();
@@ -122,7 +123,7 @@ namespace SJC.Artifacts
                     _line++;
                 }
             }
-            
+
             _mapping.Append(Base64VLQEncoding.Encode(pos.Column));
             _mapping.Append(Base64VLQEncoding.Encode(_srcIdx));
             _mapping.Append(Base64VLQEncoding.Encode(srcPos.Line));

@@ -9,7 +9,7 @@ namespace SJC.Artifacts
     sealed class SourceMapFileOutput : SourceMapOutput
     {
         private StreamWriter _w;
-        public SourceMapFileOutput(string path)
+        public SourceMapFileOutput(string path, string outputFileName) : base(outputFileName)
         {
             _w = new StreamWriter(path, false, Encoding.UTF8);
         }

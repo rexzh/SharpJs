@@ -8,14 +8,6 @@ namespace SJC.Artifacts
 {
     public sealed class ArtifactOutput : IDisposable
     {
-        private IJavaScriptOutput _jsOutput;
-        public IJavaScriptOutput JsOutput
-        {
-            get { return _jsOutput; }
-            set { _jsOutput = value; }
-        }
-
-        //TODO:Hide from outside
         private bool _generateSourceMap;
         public bool GenerateSourceMap
         {
@@ -23,12 +15,33 @@ namespace SJC.Artifacts
             set { _generateSourceMap = value; }
         }
 
-        //TODO:Hide from outside
         private ISourceMapOutput _sourceMapOutput;
-        public ISourceMapOutput SourceMapOutput
+        private IJavaScriptOutput _jsOutput;
+
+        public bool IsWriting
         {
-            get { return _sourceMapOutput; }
-            set { _sourceMapOutput = value; }
+            get { return _jsOutput != null; }
+        }
+
+        public void UseJavaScriptOutput(IJavaScriptOutput output)
+        {
+            this._jsOutput = output;
+        }
+
+        public void UseSourceMapOutput(ISourceMapOutput output)
+        {
+            this._sourceMapOutput = output;
+        }
+
+        public void CloseCurrentOutput()
+        {
+            this._jsOutput.Dispose();
+            this._sourceMapOutput.Dispose();
+        }
+
+        public void AddSourceMap(string srcFile)
+        {
+            this._sourceMapOutput.AddSource(srcFile);
         }
 
         private void WriteSourceMap(SyntaxNodeOrToken node, Position pos, string str)
@@ -104,7 +117,7 @@ namespace SJC.Artifacts
         private bool _disposed = false;
         public void Dispose()
         {
-            if(!_disposed)
+            if (!_disposed)
             {
                 _jsOutput.Dispose();
                 _sourceMapOutput.Dispose();
