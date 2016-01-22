@@ -16,7 +16,7 @@ namespace UnitTest
         {
             SJC.Compiler.CompileEngine engine = new SJC.Compiler.CompileEngine();
             SJC.Compiler.CompileOptions opts = new SJC.Compiler.CompileOptions(SJC.Artifacts.ArtifactsType.MultipleFile, SJC.Compiler.CompileOptions.DEBUG_ANY_CPU, false);
-            opts.GenerateSourceMap = true;
+            opts.GenerateSourceMap = false;
             engine.InitializeCompiler(@"..\..\..\UnitTestSample_1\UnitTestSample_1.csproj", opts);
             var result = engine.Compile();
 
